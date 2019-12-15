@@ -1,0 +1,10 @@
+.DS_Store
+
+*.class
+*.iml
+
+*.idea/
+*.gradle/
+classes
+build
+target
