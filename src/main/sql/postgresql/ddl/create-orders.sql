@@ -21,7 +21,7 @@ create table catalogitem (
 	itemType text not null
 )
 
-create table [dbo].[order](
+create table pluralsightorder(
 	id bigint not null identity primary key,
 	customer_id bigint not null,
 	orderNumber text not null,
@@ -30,7 +30,7 @@ create table [dbo].[order](
 	status text not null
 )
 
-alter table [dbo].[order] add constraint orders_fk_1 foreign key (customer_id) references customer (id);
+alter table pluralsightorder add constraint orders_fk_1 foreign key (customer_id) references customer (id);
 
 create table orderItem (
 	id bigint not null identity primary key,
@@ -42,7 +42,7 @@ create table orderItem (
 	quantity integer not null
 )
 
-alter table orderItem add constraint orderItem_fk_1 foreign key (order_id) references  [dbo].[order] (id);
+alter table orderItem add constraint orderItem_fk_1 foreign key (order_id) references pluralsightorder (id);
 alter table orderItem add constraint orderItem_fk_2 foreign key (catalogitem_id) references catalogitem (id);
 
 

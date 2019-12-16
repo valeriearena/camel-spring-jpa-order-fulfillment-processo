@@ -8,9 +8,9 @@ import org.springframework.web.servlet.view.tiles2.*;
 
 /**
  * Web configuration
- * 
+ *
  * @author Michael Hoffman, Pluralsight
- * 
+ *
  */
 @Configuration
 @ComponentScan("com.pluralsight.orderfulfillment")

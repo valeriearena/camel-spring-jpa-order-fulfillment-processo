@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.*;
  * 
  */
 @Configuration
+//@ComponentScan("com.pluralsight.orderfulfillment")
 @EnableJpaRepositories(basePackages = { "com.pluralsight.orderfulfillment" })
 @EnableTransactionManagement
 public class DataConfig {

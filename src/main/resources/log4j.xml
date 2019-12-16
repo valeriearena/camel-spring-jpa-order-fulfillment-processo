@@ -16,7 +16,7 @@
   <logger name="org.apache"><level value="info" /></logger>
   <logger name="org.springframework"><level value="info" /></logger>
   <logger name="org.springframework.web"><level value="debug" /></logger>
-  <logger name="org.hibernate"><level value="debug" /></logger>
+  <logger name="org.hibernate"><level value="trace" /></logger>
 
   <root>
     <level value="debug" />
