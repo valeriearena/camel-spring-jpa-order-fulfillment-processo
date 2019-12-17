@@ -1,29 +1,59 @@
 package com.pluralsight.orderfulfillment.config;
 
-import java.util.*;
+import javax.inject.Inject;
 
-import javax.inject.*;
+import org.apache.activemq.camel.component.ActiveMQComponent;
+import org.apache.activemq.pool.PooledConnectionFactory;
+import org.apache.camel.component.jms.JmsConfiguration;
+import org.apache.camel.spring.javaconfig.CamelConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import com.pluralsight.orderfulfillment.order.OrderStatus;
-import org.apache.camel.builder.*;
-import org.apache.camel.spring.javaconfig.*;
-import org.springframework.context.annotation.*;
-import org.springframework.core.env.*;
-
 /**
  * Spring configuration for Apache Camel
  * 
  * @author Michael Hoffman, Pluralsight
  */
 @Configuration
-//@ComponentScan("com.pluralsight.orderfulfillment")
+@ComponentScan("com.pluralsight.orderfulfillment")
 public class IntegrationConfig extends CamelConfiguration {
+
+   @Inject
+   private javax.sql.DataSource dataSource;
 
    @Inject
    private Environment environment;
 
-   @Inject
-   private javax.sql.DataSource dataSource;
+   @Bean
+   public javax.jms.ConnectionFactory jmsConnectionFactory() {
+      return new org.apache.activemq.ActiveMQConnectionFactory(environment.getProperty("activemq.broker.url"));
+   }
+
+   @Bean(initMethod = "start", destroyMethod = "stop")
+   public org.apache.activemq.pool.PooledConnectionFactory pooledConnectionFactory() {
+      PooledConnectionFactory factory = new PooledConnectionFactory();
+      factory.setConnectionFactory(jmsConnectionFactory());
+      factory.setMaxConnections(Integer.parseInt(environment
+              .getProperty("pooledConnectionFactory.maxConnections")));
+      return factory;
+   }
+
+   @Bean
+   public org.apache.camel.component.jms.JmsConfiguration jmsConfiguration() {
+      JmsConfiguration jmsConfiguration = new JmsConfiguration();
+      jmsConfiguration.setConnectionFactory(pooledConnectionFactory());
+      return jmsConfiguration;
+   }
+
+   @Bean
+   public org.apache.activemq.camel.component.ActiveMQComponent activeMq() {
+      ActiveMQComponent activeMq = new ActiveMQComponent();
+      activeMq.setConfiguration(jmsConfiguration());
+      return activeMq;
+   }
 
    /**
     * SQL Component instance used for routing orders from the orders database
@@ -47,25 +77,42 @@ public class IntegrationConfig extends CamelConfiguration {
     */
    @Bean
    public org.apache.camel.builder.RouteBuilder newWebsiteOrderRoute() {
+
       return new org.apache.camel.builder.RouteBuilder() {
 
          @Override
          public void configure() throws Exception {
             // Route that sends message from the SQL component to the Log component.
-            from( // SQL component
-                    "sql:"
+            from("sql:"
                             + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
                             + "?"
                             + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' "
                             + " where id = :#id")
-            .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
-            .to( // Log component
-                    "log:com.pluralsight.orderfulfillment.order?level=INFO");
+                    .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
+                    .to("activemq:queue:ORDER_ITEM_PROCESSING");
          }
       };
-   }
 
-//   @Override
+
+//      return new org.apache.camel.builder.RouteBuilder() {
+//
+//         @Override
+//         public void configure() throws Exception {
+//            // Route that sends message from the SQL component to the Log component.
+//            from( // SQL component
+//                    "sql:"
+//                            + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
+//                            + "?"
+//                            + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' "
+//                            + " where id = :#id")
+//            .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
+//            .to( // Log component
+//                    "log:com.pluralsight.orderfulfillment.order?level=INFO");
+//         }
+//      };
+
+
+      //   @Override
 //   public List<RouteBuilder> routes() {
 //      List<RouteBuilder> routeList = new ArrayList<RouteBuilder>();
 //
@@ -88,5 +135,9 @@ public class IntegrationConfig extends CamelConfiguration {
 //
 //      return routeList;
 //   }
+
+
+   }
+
 
 }
