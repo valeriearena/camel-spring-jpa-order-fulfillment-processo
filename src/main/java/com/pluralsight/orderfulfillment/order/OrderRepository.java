@@ -12,8 +12,7 @@ import org.springframework.data.repository.*;
  * @author Michael Hoffman, Pluralsight
  * 
  */
-public interface OrderRepository extends
-      PagingAndSortingRepository<OrderEntity, Integer> {
+public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, Integer> {
 
    /**
     * Select all order for the page ordered by the timeOrderPlaced value in
@@ -25,6 +24,9 @@ public interface OrderRepository extends
     */
    @Query(value = "select o from OrderEntity o where o.status = ?1 order by o.timeOrderPlaced")
    Page<OrderEntity> findByStatus(String status, Pageable pageable);
+
+   @Query("select o from OrderEntity o where o.id = ?1")
+   OrderEntity findById(long orderId);
 
    /**
     * Update the status of all order IDs passed.
