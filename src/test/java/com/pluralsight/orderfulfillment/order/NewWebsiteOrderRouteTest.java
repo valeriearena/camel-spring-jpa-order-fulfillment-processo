@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.pluralsight.orderfulfillment.config.IntegrationConfig;
 import com.pluralsight.orderfulfillment.test.TestIntegration;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  * Test case for testing the execution of the SQL component-based route for
@@ -23,6 +24,7 @@ import com.pluralsight.orderfulfillment.test.TestIntegration;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 @ContextConfiguration(classes = { TestIntegration.class, IntegrationConfig.class })
 public class NewWebsiteOrderRouteTest {
 
