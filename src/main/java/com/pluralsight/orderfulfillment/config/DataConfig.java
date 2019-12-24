@@ -46,13 +46,11 @@ public class DataConfig {
       final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
       jpaVendorAdapter.setDatabasePlatform(environment.getProperty("hibernate.dialect"));
       jpaVendorAdapter.setGenerateDdl(true);
-      jpaVendorAdapter.setShowSql(true);
+      //jpaVendorAdapter.setShowSql(true);
 
       final Map<String, String> jpaProperties = new HashMap<String, String>();
-      jpaProperties.put("hibernate.jdbc.batch_size",
-            environment.getProperty("hibernate.jdbc.batch_size"));
-      jpaProperties.put("hibernate.default_schema",
-            environment.getProperty("hibernate.default_schema"));
+      jpaProperties.put("hibernate.jdbc.batch_size", environment.getProperty("hibernate.jdbc.batch_size"));
+      jpaProperties.put("hibernate.default_schema", environment.getProperty("hibernate.default_schema"));
       LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
       factory.setPackagesToScan("com.pluralsight.orderfulfillment");
       factory.setJpaVendorAdapter(jpaVendorAdapter);

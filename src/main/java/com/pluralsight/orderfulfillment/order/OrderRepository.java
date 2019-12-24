@@ -7,7 +7,17 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.*;
 
 /**
- * Repository for OrderEntity data.
+ * Repository for OrderEntity data - a collection of Orders.
+ *
+ * Repositories are like DAOs.
+ * DAOs abstract the implementation details of how to retrieve data.
+ * Repositories abstract the implementation of how to retrieve a collection.
+ *
+ * OrderRepository abstracts the implementation of how to retrieve a collection of Orders.
+ * Repositories are collection DAOs like REST endpoints are collection resources.
+ *
+ * CRUD logic is considered boiler-plate so the Spring Data framework defines the CrudRepository.
+ * When it's extended, Spring dynamically provides the implementation.
  * 
  * @author Michael Hoffman, Pluralsight
  * 

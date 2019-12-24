@@ -2,6 +2,7 @@ package com.pluralsight.orderfulfillment.catalog;
 
 import java.io.*;
 
+//A value object that is not persisted.
 public class CatalogItem implements Serializable {
 
    private static final long serialVersionUID = -3048858539620507612L;

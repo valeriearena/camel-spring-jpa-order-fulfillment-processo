@@ -8,6 +8,7 @@ import org.springframework.web.servlet.*;
 
 /**
  * Initializes the web application in place of a descriptor.
+ * Loads Spring context.
  * 
  * @author Michael Hoffman, Pluralsight
  * 
@@ -16,11 +17,13 @@ public class WebContextInitializer implements WebApplicationInitializer {
 
    @Override
    public void onStartup(ServletContext servletContext) throws ServletException {
+
+      // Scans for classes annotated with @Configuration.
       AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+
       rootContext.register(Application.class);
       rootContext.setServletContext(servletContext);
-      ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher",
-            new DispatcherServlet(rootContext));
+      ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
       dispatcher.setLoadOnStartup(1);
       dispatcher.addMapping("/");
    }

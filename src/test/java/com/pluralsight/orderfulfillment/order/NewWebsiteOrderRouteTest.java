@@ -45,6 +45,10 @@ public class NewWebsiteOrderRouteTest {
       jdbcTemplate
             .execute("insert into customer (id, firstname, lastname, email) "
                   + "values (1, 'Larry', 'Horse', 'larry@hello.com')");
+
+      jdbcTemplate
+              .execute("insert into customer (id, firstname, lastname, email) "
+                      + "values (2, 'Michael', 'Hoffman', 'mike@michaelhoffmaninc.com')");
    }
 
    /**
@@ -70,14 +74,21 @@ public class NewWebsiteOrderRouteTest {
       jdbcTemplate
             .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
                   + "values (1, 1, '1001', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+
+      jdbcTemplate
+              .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
+                      + "values (2, 2, '1002', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+
       jdbcTemplate
             .execute("insert into orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
                   + "values (1, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
+
       Thread.sleep(5000);
-      int total = jdbcTemplate.queryForObject(
-            "select count(id) from pluralsightorder where status = 'P'",
+
+      int total = jdbcTemplate.queryForObject("select count(id) from pluralsightorder where status = 'N'",
             Integer.class);
-      assertEquals(1, total);
+
+      assertEquals(2, total);
 
    }
 }
