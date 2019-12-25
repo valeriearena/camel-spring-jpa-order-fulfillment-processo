@@ -45,8 +45,8 @@ public class DataConfig {
    public EntityManagerFactory entityManagerFactory() {
       final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
       jpaVendorAdapter.setDatabasePlatform(environment.getProperty("hibernate.dialect"));
-      jpaVendorAdapter.setGenerateDdl(true);
-      //jpaVendorAdapter.setShowSql(true);
+      //jpaVendorAdapter.setGenerateDdl(true);
+      jpaVendorAdapter.setShowSql(true);
 
       final Map<String, String> jpaProperties = new HashMap<String, String>();
       jpaProperties.put("hibernate.jdbc.batch_size", environment.getProperty("hibernate.jdbc.batch_size"));
