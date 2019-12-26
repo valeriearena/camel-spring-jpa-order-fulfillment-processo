@@ -2,26 +2,68 @@ package com.pluralsight.orderfulfillment.order;
 
 import static org.junit.Assert.*;
 
+import com.pluralsight.orderfulfillment.config.IntegrationConfig;
 import java.util.*;
 
 import javax.inject.*;
 
 import org.junit.*;
+import org.junit.runner.RunWith;
 import org.springframework.data.domain.*;
 
 import com.pluralsight.orderfulfillment.test.*;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { TestIntegration.class})
 public class OrderRepositoryTest extends BaseJpaRepositoryTest {
+
+   @Inject
+   private JdbcTemplate jdbcTemplate;
 
    @Inject
    private OrderRepository orderRepository;
 
    @Before
    public void setUp() throws Exception {
+
+      // Insert catalog and customer data
+      jdbcTemplate
+          .execute("insert into catalogitem (id, itemnumber, itemname, itemtype) "
+              + "values (1, '078-1344200444', 'Build Your Own JavaScript Framework in Just 24 Hours', 'Book')");
+      jdbcTemplate
+          .execute("insert into customer (id, firstname, lastname, email) "
+              + "values (1, 'Larry', 'Horse', 'larry@hello.com')");
+
+      jdbcTemplate
+          .execute("insert into customer (id, firstname, lastname, email) "
+              + "values (2, 'Michael', 'Hoffman', 'mike@michaelhoffmaninc.com')");
+
+
+      jdbcTemplate
+          .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
+              + "values (1, 1, '1001', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+
+      jdbcTemplate
+          .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
+              + "values (2, 2, '1002', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+
+      jdbcTemplate
+          .execute("insert into orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
+              + "values (1, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
+
+
    }
 
    @After
    public void tearDown() throws Exception {
+
+      jdbcTemplate.execute("delete from orderItem");
+      jdbcTemplate.execute("delete from pluralsightorder");
+      jdbcTemplate.execute("delete from catalogitem");
+      jdbcTemplate.execute("delete from customer");
    }
 
    @Test
@@ -67,11 +109,9 @@ public class OrderRepositoryTest extends BaseJpaRepositoryTest {
       List<Long> orderIds = new ArrayList<Long>();
       orderIds.add(1L);
       orderIds.add(2L);
-      orderIds.add(3L);
-      orderIds.add(4L);
       int count = orderRepository.updateStatus(
             OrderStatus.PROCESSING.getCode(),
             new Date(System.currentTimeMillis()), orderIds);
-      assertTrue(count == 4);
+      assertTrue(count == 2);
    }
 }

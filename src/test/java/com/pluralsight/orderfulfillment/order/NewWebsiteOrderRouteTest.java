@@ -83,9 +83,9 @@ public class NewWebsiteOrderRouteTest {
             .execute("insert into orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
                   + "values (1, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
 
-      Thread.sleep(5000);
+      Thread.sleep(10000);
 
-      int total = jdbcTemplate.queryForObject("select count(id) from pluralsightorder where status = 'N'",
+      int total = jdbcTemplate.queryForObject("select count(id) from pluralsightorder where status = 'P'",
             Integer.class);
 
       assertEquals(2, total);

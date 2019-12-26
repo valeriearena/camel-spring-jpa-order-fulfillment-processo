@@ -30,20 +30,20 @@ public class DerbyDatabaseBean {
       }
 
       jdbcTemplate.execute("CREATE SCHEMA orders");
-//      jdbcTemplate
-//            .execute("create table customer (id integer not null, firstName varchar(200) not null, lastName varchar(200) not null, email varchar(200) not null, primary key (id))");
-//      jdbcTemplate
-//            .execute("create table catalogitem (id integer not null, itemNumber varchar(200) not null, itemName varchar(200) not null, itemType varchar(200) not null, primary key (id))");
-//      jdbcTemplate
-//            .execute("create table pluralsightorder (id integer not null, customer_id integer not null, orderNumber varchar(200) not null, timeOrderPlaced timestamp not null, lastUpdate timestamp not null, status varchar(200) not null, primary key (id))");
-//      jdbcTemplate
-//            .execute("alter table pluralsightorder add constraint orders_fk_1 foreign key (customer_id) references customer (id)");
-//      jdbcTemplate
-//            .execute("create table orderItem (id integer not null, order_id integer not null, catalogitem_id integer not null, status varchar(200) not null, price decimal(20,5), lastUpdate timestamp not null, quantity integer not null, primary key (id))");
-//      jdbcTemplate
-//            .execute("alter table orderItem add constraint orderItem_fk_1 foreign key (order_id) references pluralsightorder (id)");
-//      jdbcTemplate
-//            .execute("alter table orderItem add constraint orderItem_fk_2 foreign key (catalogitem_id) references catalogitem (id)");
+      jdbcTemplate
+            .execute("create table customer (id integer not null, firstName varchar(200) not null, lastName varchar(200) not null, email varchar(200) not null, primary key (id))");
+      jdbcTemplate
+            .execute("create table catalogitem (id integer not null, itemNumber varchar(200) not null, itemName varchar(200) not null, itemType varchar(200) not null, primary key (id))");
+      jdbcTemplate
+            .execute("create table pluralsightorder (id integer not null, customer_id integer not null, orderNumber varchar(200) not null, timeOrderPlaced timestamp not null, lastUpdate timestamp not null, status varchar(200) not null, primary key (id))");
+      jdbcTemplate
+            .execute("alter table pluralsightorder add constraint orders_fk_1 foreign key (customer_id) references customer (id)");
+      jdbcTemplate
+            .execute("create table orderItem (id integer not null, order_id integer not null, catalogitem_id integer not null, status varchar(200) not null, price decimal(20,5), lastUpdate timestamp not null, quantity integer not null, primary key (id))");
+      jdbcTemplate
+            .execute("alter table orderItem add constraint orderItem_fk_1 foreign key (order_id) references pluralsightorder (id)");
+      jdbcTemplate
+            .execute("alter table orderItem add constraint orderItem_fk_2 foreign key (catalogitem_id) references catalogitem (id)");
    }
 
    /**
