@@ -26,7 +26,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { TestIntegration.class, IntegrationConfig.class })
-public class NewWebsiteOrderRouteTest {
+public class NewOrderRouteTest {
 
    @Inject
    private JdbcTemplate jdbcTemplate;

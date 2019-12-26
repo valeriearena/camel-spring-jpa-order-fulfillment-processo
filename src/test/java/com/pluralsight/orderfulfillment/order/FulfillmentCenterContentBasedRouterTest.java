@@ -33,6 +33,7 @@ public class FulfillmentCenterContentBasedRouterTest {
          + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.ABC_FULFILLMENT_CENTER
                .value()
          + "</FulfillmentCenter><OrderItems><ItemNumber>078-1344200444</ItemNumber><Price>20.00000</Price><Quantity>1</Quantity></OrderItems></OrderType></Order>";
+
    public String fulfillmentCenter1Message = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Order xmlns=\"http://www.pluralsight.com/orderfulfillment/Order\"><OrderType><FirstName>Jane</FirstName><LastName>Smith</LastName><Email>jane@somehow.com</Email><OrderNumber>1003</OrderNumber><TimeOrderPlaced>2014-10-24T12:09:21.330-05:00</TimeOrderPlaced><FulfillmentCenter>"
          + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.FULFILLMENT_CENTER_ONE
                .value()
@@ -53,6 +54,6 @@ public class FulfillmentCenterContentBasedRouterTest {
    @Test
    public void test_sendMessage() throws Exception {
       producer.sendBody(abcFulfillmentCenterMessage);
-      // producer.sendBody(fulfillmentCenter1Message);
+      producer.sendBody(fulfillmentCenter1Message);
    }
 }

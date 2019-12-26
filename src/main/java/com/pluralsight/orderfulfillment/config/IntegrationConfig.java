@@ -2,18 +2,14 @@ package com.pluralsight.orderfulfillment.config;
 
 import com.pluralsight.orderfulfillment.routeBuilder.FileRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
-import com.pluralsight.orderfulfillment.routeBuilder.WebsiteOrderRouteBuilder;
-import java.util.ArrayList;
-import java.util.List;
+import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
-import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.xml.Namespaces;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.sql.SqlComponent;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
@@ -21,8 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-
-import com.pluralsight.orderfulfillment.order.OrderStatus;
 
 /**
  * Spring configuration for Apache Camel.
@@ -133,7 +127,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    @Bean
    public RouteBuilder getWebsiteOrderRouteBuilder() {
 
-      return new WebsiteOrderRouteBuilder();
+      return new NewOrderRouteBuilder();
 
    }
 

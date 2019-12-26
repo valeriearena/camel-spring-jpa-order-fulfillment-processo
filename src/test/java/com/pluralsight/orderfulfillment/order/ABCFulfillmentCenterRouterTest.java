@@ -10,17 +10,21 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
+import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
 
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCenterAggregationStrategy;
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import javax.inject.Inject;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Test case for the ABC fulfillment center SSH route.
@@ -28,10 +32,10 @@ import javax.inject.Inject;
  * @author Michael Hoffman, Pluralsight
  *
  */
-@org.junit.runner.RunWith(org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner.class)
-@org.springframework.test.context.ContextConfiguration(
+@RunWith(org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner.class)
+@ContextConfiguration(
       classes = { ABCFulfillmentCenterRouterTest.TestConfig.class },
-      loader = org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader.class)
+      loader = CamelSpringDelegatingTestContextLoader.class)
 public class ABCFulfillmentCenterRouterTest {
 
    @org.apache.camel.Produce(uri = "direct:test")
@@ -108,7 +112,7 @@ public class ABCFulfillmentCenterRouterTest {
    public void tearDown() throws Exception {
    }
 
-   @org.springframework.context.annotation.Configuration
+   @Configuration
    public static class TestConfig extends SingleRouteCamelConfiguration {
       @Bean
       public ABCFulfillmentProcessor aBCFulfillmentProcessor() {
