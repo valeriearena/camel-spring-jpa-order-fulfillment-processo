@@ -111,7 +111,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    /**
     * Routes file to the /test directory.
     */
-   @Bean
+   //@Bean
    public RouteBuilder getCopyFileRouteBuilder() {
 
       String outFolder = environment.getProperty("order.fulfillment.center.1.outbound.folder");
@@ -124,7 +124,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    /**
     * Routes new orders to the ORDER_ITEM_PROCESSING queue.
     */
-   @Bean
+   //@Bean
    public RouteBuilder getWebsiteOrderRouteBuilder() {
 
       return new NewOrderRouteBuilder();
@@ -134,7 +134,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    /**
     * Routes orders from the ORDER_ITEM_PROCESSING queue to the appropriate fulfillment center.
     */
-   @Bean
+   //@Bean
    public RouteBuilder getFulfillmentCenterContentBasedRouteBuilder() {
 
       return new FulfillmentCenterRouteBuilder();
