@@ -109,9 +109,7 @@ public class OrderRepositoryTest extends BaseJpaRepositoryTest {
       List<Long> orderIds = new ArrayList<Long>();
       orderIds.add(1L);
       orderIds.add(2L);
-      int count = orderRepository.updateStatus(
-            OrderStatus.PROCESSING.getCode(),
-            new Date(System.currentTimeMillis()), orderIds);
+      int count = orderRepository.updateStatus(OrderStatus.PROCESSING.getCode(), new Date(System.currentTimeMillis()), orderIds);
       assertTrue(count == 2);
    }
 }

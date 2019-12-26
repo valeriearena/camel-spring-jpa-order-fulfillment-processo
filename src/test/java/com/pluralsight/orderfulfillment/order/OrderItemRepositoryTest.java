@@ -9,19 +9,56 @@ import javax.inject.*;
 import org.junit.*;
 
 import com.pluralsight.orderfulfillment.test.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class OrderItemRepositoryTest extends BaseJpaRepositoryTest {
+
+   @Inject
+   private JdbcTemplate jdbcTemplate;
 
    @Inject
    private OrderItemRepository orderItemRepository;
 
    @Before
    public void setUp() throws Exception {
+
+      // Insert catalog and customer data
+      jdbcTemplate
+          .execute("insert into catalogitem (id, itemnumber, itemname, itemtype) "
+              + "values (1, '078-1344200444', 'Build Your Own JavaScript Framework in Just 24 Hours', 'Book')");
+      jdbcTemplate
+          .execute("insert into customer (id, firstname, lastname, email) "
+              + "values (1, 'Larry', 'Horse', 'larry@hello.com')");
+
+      jdbcTemplate
+          .execute("insert into customer (id, firstname, lastname, email) "
+              + "values (2, 'Michael', 'Hoffman', 'mike@michaelhoffmaninc.com')");
+
+
+      jdbcTemplate
+          .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
+              + "values (1, 1, '1001', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+
+      jdbcTemplate
+          .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
+              + "values (2, 2, '1002', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+
+      jdbcTemplate
+          .execute("insert into orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
+              + "values (1, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
+
+
    }
 
    @After
    public void tearDown() throws Exception {
+
+      jdbcTemplate.execute("delete from orderItem");
+      jdbcTemplate.execute("delete from pluralsightorder");
+      jdbcTemplate.execute("delete from catalogitem");
+      jdbcTemplate.execute("delete from customer");
    }
+
 
    @Test
    public void test_findAllOrderItemsSuccess() throws Exception {
@@ -48,15 +85,10 @@ public class OrderItemRepositoryTest extends BaseJpaRepositoryTest {
    }
 
    @Test
-   public void test_() throws Exception {
+   public void test_updateStatusSuccess() throws Exception {
       List<Long> orderIds = new ArrayList<Long>();
       orderIds.add(1L);
-      orderIds.add(2L);
-      orderIds.add(3L);
-      orderIds.add(4L);
-      int updateCount = orderItemRepository.updateStatus(
-            OrderStatus.PROCESSING.getCode(),
-            new Date(System.currentTimeMillis()), orderIds);
-      assertTrue(updateCount == 8);
+      int updateCount = orderItemRepository.updateStatus(OrderStatus.PROCESSING.getCode(), new Date(System.currentTimeMillis()), orderIds);
+      assertTrue(updateCount == 1);
    }
 }
