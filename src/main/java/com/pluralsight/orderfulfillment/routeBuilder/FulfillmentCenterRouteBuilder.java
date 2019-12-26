@@ -2,6 +2,7 @@ package com.pluralsight.orderfulfillment.routeBuilder;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
+import org.springframework.stereotype.Component;
 
 /**
  * Routes the message from the ORDER_ITEM_PROCESSING queue to the appropriate queue
@@ -25,6 +26,7 @@ import org.apache.camel.builder.xml.Namespaces;
  * <OrderType> <FulfillmentCenter>ABCFulfillmentCenter</FulfillmentCenter>
  *
  */
+@Component
 public class FulfillmentCenterRouteBuilder extends RouteBuilder {
 
   @Override
