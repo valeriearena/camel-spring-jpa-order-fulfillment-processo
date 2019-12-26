@@ -38,19 +38,19 @@ public class FulfillmentCenterRouteBuilder extends RouteBuilder {
 
     // Send from the ORDER_ITEM_PROCESSING queue to the correct fulfillment center queue.
     from("activemq:queue:ORDER_ITEM_PROCESSING")
-        .choice()
-        .when()
-        .xpath(
-            "/o:Order/o:OrderType/o:FulfillmentCenter = '"
-                + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.ABC_FULFILLMENT_CENTER.value()
-                + "'", namespace)
-        .to("activemq:queue:ABC_FULFILLMENT_REQUEST")
-        .when()
-        .xpath(
-            "/o:Order/o:OrderType/o:FulfillmentCenter = '"
-                + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.FULFILLMENT_CENTER_ONE.value()
-                + "'", namespace)
-        .to("activemq:queue:FC1_FULFILLMENT_REQUEST").otherwise()
-        .to("activemq:queue:ERROR_FULFILLMENT_REQUEST");
+    .choice()
+    .when()
+    .xpath(
+        "/o:Order/o:OrderType/o:FulfillmentCenter = '"
+            + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.ABC_FULFILLMENT_CENTER.value()
+            + "'", namespace)
+    .to("activemq:queue:ABC_FULFILLMENT_REQUEST")
+    .when()
+    .xpath(
+        "/o:Order/o:OrderType/o:FulfillmentCenter = '"
+            + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.FULFILLMENT_CENTER_ONE.value()
+            + "'", namespace)
+    .to("activemq:queue:FC1_FULFILLMENT_REQUEST").otherwise()
+    .to("activemq:queue:ERROR_FULFILLMENT_REQUEST");
   }
 }
