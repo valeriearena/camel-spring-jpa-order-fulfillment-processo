@@ -22,8 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FulfillmentCenterOneProcessor {
 
-  private static final Logger log = LoggerFactory
-      .getLogger(FulfillmentCenterOneProcessor.class);
+  private static final Logger log = LoggerFactory.getLogger(FulfillmentCenterOneProcessor.class);
 
   /**
    * Accepts the order XML from the route exchange's inbound message body and

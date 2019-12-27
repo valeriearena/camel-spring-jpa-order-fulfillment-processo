@@ -12,8 +12,10 @@ import javax.jms.ConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.camel.CamelExchangeException;
+import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
+import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
@@ -46,10 +48,10 @@ import org.springframework.test.context.ContextConfiguration;
       loader = CamelSpringDelegatingTestContextLoader.class)
 public class FulfillmentCenterOneRouterTest {
 
-   @org.apache.camel.Produce(uri = "direct:test")
+   @Produce(uri = "direct:test")
    protected ProducerTemplate testProducer;
 
-   @org.apache.camel.EndpointInject(uri = "mock:direct:result")
+   @EndpointInject(uri = "mock:direct:result")
    protected MockEndpoint resultEndpoint;
 
    public static String fulfillmentCenter1Message =
@@ -117,19 +119,21 @@ public class FulfillmentCenterOneRouterTest {
          return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
+
                // 1 - Route from the direct component to an ActiveMQ component
+               // The Camel direct component is a way to directly invoke a consumer.
+               // When we directly send a message to this URI, the message will be consumed then sent to ActiveMQ.
                from("direct:test").to("activemq:queue:FC1_FULFILLMENT_REQUEST");
 
-               // 2 - Route from the ActiveMQ component through the message
-               // processor for fulfillment center one to the fulfillment center
-               // one restful web service, and finally, to a mock component.
+               // 2 - Route from the ActiveMQ component through the message processor for fulfillment center one
+               // to the fulfillment center one restful web service,
+               // and finally, return the response to a mock component.
+
                from("activemq:queue:FC1_FULFILLMENT_REQUEST")
-                     .beanRef("fulfillmentCenterOneProcessor",
-                           "transformToOrderRequestMessage")
-                     .setHeader(Exchange.CONTENT_TYPE,
-                           constant("application/json"))
-                     .to("http4://localhost:8090/services/orderFulfillment/processOrders")
-                     .to("mock:direct:result");
+               .beanRef("fulfillmentCenterOneProcessor", "transformToOrderRequestMessage")
+               .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+               .to("http4://localhost:8090/services/orderFulfillment/processOrders")
+               .to("mock:direct:result");
 
             }
 
@@ -153,17 +157,14 @@ public class FulfillmentCenterOneRouterTest {
       // 2 - Send the XML as the body of the message through the route
       testProducer.sendBody(fulfillmentCenter1Message);
 
-      // 3 - Waits ten seconds to see if the expected number of messages have
-      // been received
+      // 3 - Waits ten seconds to see if the expected number of messages have been received
       resultEndpoint.assertIsSatisfied();
 
       // 4 - Get the exchanges. Our exchange should be the first.
       Exchange exchange = resultEndpoint.getExchanges().get(0);
       assertNotNull(exchange);
       Message inMessage = exchange.getIn();
-      FulfillmentResponse response =
-            new Gson().fromJson(inMessage.getBody(String.class),
-                  FulfillmentResponse.class);
+      FulfillmentResponse response = new Gson().fromJson(inMessage.getBody(String.class), FulfillmentResponse.class);
       assertEquals(200, response.getResponseCode());
    }
 

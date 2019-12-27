@@ -190,7 +190,14 @@ public class DefaultOrderService implements OrderService {
     orderType.setEmail(order.getCustomer().getEmail());
     // Default to ABC_FULFILLMENT_CENTER. All web orders will be fulfilled
     // through this endpoint.
-    orderType.setFulfillmentCenter(FulfillmentCenter.ABC_FULFILLMENT_CENTER);
+
+    if(order.getId() > 4){
+      orderType.setFulfillmentCenter(FulfillmentCenter.ABC_FULFILLMENT_CENTER);
+    }
+    else{
+      orderType.setFulfillmentCenter(FulfillmentCenter.FULFILLMENT_CENTER_ONE);
+    }
+
     orderType.setOrderNumber(order.getOrderNumber());
     GregorianCalendar cal = new GregorianCalendar();
     cal.setTime(order.getTimeOrderPlaced());

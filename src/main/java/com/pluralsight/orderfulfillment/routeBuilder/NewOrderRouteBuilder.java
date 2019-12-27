@@ -15,12 +15,17 @@ public class NewOrderRouteBuilder extends RouteBuilder {
 
     getContext().setTracing(true);
 
+    // Poll database for new orders
+    // Call the OrderItemMessageTranslator bean and execute the method for translation.
+    // The beanRef method will automatically bind the body of the inbound message to the parameter we defined in the method.
+    // Send new orders to the ORDER_ITEM_PROCESSING queue.
+
     from("sql:" // from URI is using the SQL component.
         + "select id from pluralsightorder where status = '" + OrderStatus.NEW.getCode() + "'"
         + "?"
         + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
-        .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")  // Call a bean that's registered with Camel and execute the method for translation.
-        .to("activemq:queue:ORDER_ITEM_PROCESSING"); // to URI is using the ActiveMQ component.
+        .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
+        .to("activemq:queue:ORDER_ITEM_PROCESSING");
   }
 
 //  @Override
@@ -28,12 +33,16 @@ public class NewOrderRouteBuilder extends RouteBuilder {
 //
 //    getContext().setTracing(true);
 //
-//    from("sql:" // from URI tells Camel how and where to get the data.
+//    // Poll database for new orders
+//    // Call the OrderItemMessageTranslator bean and execute the method for translation.
+//    // Log the new orders.
+//
+//    from("sql:"
 //        + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
 //        + "?"
 //        + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
-//    //.beanRef("orderItemMessageTranslator", "transformToOrderItemMessage") // Call a bean that's registered with Camel and execute the method for translation.
-//    .to( "log:com.pluralsight.orderfulfillment.order?level=INFO"); // to URI tells Camel how and where to send the data.
+//    //.beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
+//    .to( "log:com.pluralsight.orderfulfillment.order?level=INFO");
 //  }
 
 }
