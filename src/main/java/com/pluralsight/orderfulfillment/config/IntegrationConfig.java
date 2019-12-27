@@ -15,6 +15,7 @@ import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
 /**
@@ -39,6 +40,11 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
 
    @Inject
    private Environment environment;
+
+   @Bean
+   public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+      return new PropertySourcesPlaceholderConfigurer();
+   }
 
    /**
     * Camel SQL Component.
@@ -113,10 +119,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    //@Bean
    public RouteBuilder getCopyFileRouteBuilder() {
 
-      String outFolder = environment.getProperty("order.fulfillment.center.1.outbound.folder");
-      String testFolder = environment.getProperty("order.fulfillment.center.1.outbound.folder");
-
-      return new FileRouteBuilder(outFolder, testFolder);
+      return new FileRouteBuilder();
 
    }
 

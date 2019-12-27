@@ -1,6 +1,9 @@
 package com.pluralsight.orderfulfillment.routeBuilder;
 
+import javax.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,23 +12,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class FileRouteBuilder extends RouteBuilder {
 
-  private String outFolder;
-  private String testFolder;
+  @Inject
+  private Environment environment;
+
+  @Value("${order.fulfillment.center.1.outbound.folder}")
+  private String folder;
 
   public FileRouteBuilder(){}
-
-  public FileRouteBuilder(String outFolder, String testFolder){
-    this.outFolder = outFolder;
-    this.testFolder = testFolder;
-  }
 
   @Override
   public void configure() throws Exception {
 
     getContext().setTracing(true);
 
-    from( "file://" + outFolder + "?noop=true")
-        .to("file://" + testFolder +"/test");
+    from( "file://" + folder + "?noop=true")
+        .to("file://" + folder +"/test");
 
   }
 
