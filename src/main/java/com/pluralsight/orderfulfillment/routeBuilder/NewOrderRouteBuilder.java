@@ -15,12 +15,12 @@ public class NewOrderRouteBuilder extends RouteBuilder {
 
     getContext().setTracing(true);
 
-    from("sql:" // from endpoint tells Camel where to get the data from the URI specified.
-        + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
+    from("sql:" // from URI is using the SQL component.
+        + "select id from pluralsightorder where status = '" + OrderStatus.NEW.getCode() + "'"
         + "?"
         + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
         .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")  // Call a bean that's registered with Camel and execute the method for translation.
-        .to("activemq:queue:ORDER_ITEM_PROCESSING"); // to endpoint tells Camel to route the message to the URI specified.
+        .to("activemq:queue:ORDER_ITEM_PROCESSING"); // to URI is using the ActiveMQ component.
   }
 
 //  @Override
@@ -28,12 +28,12 @@ public class NewOrderRouteBuilder extends RouteBuilder {
 //
 //    getContext().setTracing(true);
 //
-//    from("sql:" // from endpoint tells Camel where to get the data from the URI specified.
+//    from("sql:" // from URI tells Camel how and where to get the data.
 //        + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
 //        + "?"
 //        + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
-//    //.beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
-//    .to( "log:com.pluralsight.orderfulfillment.order?level=INFO");
+//    //.beanRef("orderItemMessageTranslator", "transformToOrderItemMessage") // Call a bean that's registered with Camel and execute the method for translation.
+//    .to( "log:com.pluralsight.orderfulfillment.order?level=INFO"); // to URI tells Camel how and where to send the data.
 //  }
 
 }

@@ -16,92 +16,91 @@ import org.springframework.stereotype.Component;
  * Processor for the fulfillment center one restful web service route. Accepts
  * the order XML from the exchange, converts it to JSON format and then returns
  * the JSON as a string.
- * 
- * @author Michael Hoffman, Pluralsight
  *
+ * @author Michael Hoffman, Pluralsight
  */
 @Component
 public class FulfillmentCenterOneProcessor {
 
-   private static final Logger log = LoggerFactory
-         .getLogger(FulfillmentCenterOneProcessor.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(FulfillmentCenterOneProcessor.class);
 
-   /**
-    * Accepts the order XML from the route exchange's inbound message body and
-    * then converts it to JSON format.
-    * 
-    * @param orderXml
-    * @return
-    */
-   public String transformToOrderRequestMessage(String orderXml) {
-      String output = null;
-      try {
-         if (orderXml == null) {
-            throw new Exception(
-                  "Order xml was not bound to the method via integration framework.");
-         }
-
-         output = processCreateOrderRequestMessage(orderXml);
-      } catch (Exception e) {
-         log.error(
-               "Fulfillment center one message translation failed: "
-                     + e.getMessage(), e);
-      }
-      return output;
-   }
-
-   protected String processCreateOrderRequestMessage(String orderXml)
-         throws Exception {
-      // 1 - Unmarshall the Order from an XML string to the generated order
-      // class.
-      JAXBContext context =
-            JAXBContext
-                  .newInstance(com.pluralsight.orderfulfillment.generated.Order.class);
-      Unmarshaller unmarshaller = context.createUnmarshaller();
-      com.pluralsight.orderfulfillment.generated.Order order =
-            (com.pluralsight.orderfulfillment.generated.Order) unmarshaller
-                  .unmarshal(new StringReader(orderXml));
-
-      // 2 - Build an Order Request object and return the JSON-ified object
-      return new Gson().toJson(buildOrderRequestType(order));
-   }
-
-   protected OrderRequest buildOrderRequestType(
-         com.pluralsight.orderfulfillment.generated.Order orderFromXml) {
-      OrderType orderTypeFromXml = orderFromXml.getOrderType();
-
-      // 1 - Build order item types
-      List<OrderItemType> orderItemTypesFromXml =
-            orderTypeFromXml.getOrderItems();
-      List<OrderItem> orderItems =
-            new ArrayList<OrderItem>();
-      for (OrderItemType orderItemTypeFromXml : orderItemTypesFromXml) {
-         orderItems
-               .add(new OrderItem(
-                     orderItemTypeFromXml.getItemNumber(), orderItemTypeFromXml
-                           .getPrice(), orderItemTypeFromXml.getQuantity()));
+  /**
+   * Accepts the order XML from the route exchange's inbound message body and
+   * then converts it to JSON format.
+   *
+   * @param orderXml
+   * @return
+   */
+  public String transformToOrderRequestMessage(String orderXml) {
+    String output = null;
+    try {
+      if (orderXml == null) {
+        throw new Exception(
+            "Order xml was not bound to the method via integration framework.");
       }
 
-      // 2 - Build order
-      List<Order> orders =
-            new ArrayList<Order>();
-      Order order =
-            new Order();
-      order.setFirstName(orderTypeFromXml.getFirstName());
-      order.setLastName(order.getLastName());
-      order.setEmail(orderTypeFromXml.getEmail());
-      order.setOrderNumber(orderTypeFromXml.getOrderNumber());
-      order.setTimeOrderPlaced(orderTypeFromXml.getTimeOrderPlaced()
-            .toGregorianCalendar().getTime());
-      order.setOrderItems(orderItems);
-      orders.add(order);
+      output = processCreateOrderRequestMessage(orderXml);
+    } catch (Exception e) {
+      log.error(
+          "Fulfillment center one message translation failed: "
+              + e.getMessage(), e);
+    }
+    return output;
+  }
 
-      // 3 - Build order request
-      OrderRequest orderRequest = new OrderRequest();
-      orderRequest.setOrders(orders);
+  protected String processCreateOrderRequestMessage(String orderXml)
+      throws Exception {
+    // 1 - Unmarshall the Order from an XML string to the generated order
+    // class.
+    JAXBContext context =
+        JAXBContext
+            .newInstance(com.pluralsight.orderfulfillment.generated.Order.class);
+    Unmarshaller unmarshaller = context.createUnmarshaller();
+    com.pluralsight.orderfulfillment.generated.Order order =
+        (com.pluralsight.orderfulfillment.generated.Order) unmarshaller
+            .unmarshal(new StringReader(orderXml));
 
-      // 4 - Return the order request
-      return orderRequest;
-   }
+    // 2 - Build an Order Request object and return the JSON-ified object
+    return new Gson().toJson(buildOrderRequestType(order));
+  }
+
+  protected OrderRequest buildOrderRequestType(
+      com.pluralsight.orderfulfillment.generated.Order orderFromXml) {
+    OrderType orderTypeFromXml = orderFromXml.getOrderType();
+
+    // 1 - Build order item types
+    List<OrderItemType> orderItemTypesFromXml =
+        orderTypeFromXml.getOrderItems();
+    List<OrderItem> orderItems =
+        new ArrayList<OrderItem>();
+    for (OrderItemType orderItemTypeFromXml : orderItemTypesFromXml) {
+      orderItems
+          .add(new OrderItem(
+              orderItemTypeFromXml.getItemNumber(), orderItemTypeFromXml
+              .getPrice(), orderItemTypeFromXml.getQuantity()));
+    }
+
+    // 2 - Build order
+    List<Order> orders =
+        new ArrayList<Order>();
+    Order order =
+        new Order();
+    order.setFirstName(orderTypeFromXml.getFirstName());
+    order.setLastName(order.getLastName());
+    order.setEmail(orderTypeFromXml.getEmail());
+    order.setOrderNumber(orderTypeFromXml.getOrderNumber());
+    order.setTimeOrderPlaced(orderTypeFromXml.getTimeOrderPlaced()
+        .toGregorianCalendar().getTime());
+    order.setOrderItems(orderItems);
+    orders.add(order);
+
+    // 3 - Build order request
+    OrderRequest orderRequest = new OrderRequest();
+    orderRequest.setOrders(orders);
+
+    // 4 - Return the order request
+    return orderRequest;
+  }
 
 }

@@ -18,15 +18,16 @@ public class FileRouteBuilder extends RouteBuilder {
   @Value("${order.fulfillment.center.1.outbound.folder}")
   private String folder;
 
-  public FileRouteBuilder(){}
+  public FileRouteBuilder() {
+  }
 
   @Override
   public void configure() throws Exception {
 
     getContext().setTracing(true);
 
-    from( "file://" + folder + "?noop=true")
-        .to("file://" + folder +"/test");
+    from("file://" + folder + "?noop=true")
+        .to("file://" + folder + "/test");
 
   }
 
