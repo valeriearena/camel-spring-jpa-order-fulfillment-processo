@@ -1,15 +1,16 @@
 package com.pluralsight.orderfulfillment.customer;
 
-import static org.junit.Assert.*;
-
-import java.util.*;
-
-import javax.inject.*;
-
-import org.junit.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import com.pluralsight.orderfulfillment.order.OrderEntity;
-import com.pluralsight.orderfulfillment.test.*;
+import com.pluralsight.orderfulfillment.test.BaseJpaRepositoryTest;
+import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CustomerRepositoryTest extends BaseJpaRepositoryTest {
 

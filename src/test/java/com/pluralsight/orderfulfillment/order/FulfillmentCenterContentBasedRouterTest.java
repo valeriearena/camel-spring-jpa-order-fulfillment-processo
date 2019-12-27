@@ -1,5 +1,6 @@
 package com.pluralsight.orderfulfillment.order;
 
+import com.pluralsight.orderfulfillment.config.Application;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.junit.After;
@@ -10,8 +11,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import com.pluralsight.orderfulfillment.config.Application;
 
 /**
  * Note, this test requires Apache ActiveMQ to be started. The test will send

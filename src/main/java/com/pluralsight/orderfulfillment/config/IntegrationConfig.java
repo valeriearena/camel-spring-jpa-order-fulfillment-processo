@@ -5,7 +5,6 @@ import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuild
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;

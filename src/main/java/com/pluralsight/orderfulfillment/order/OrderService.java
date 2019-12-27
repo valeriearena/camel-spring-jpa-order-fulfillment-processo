@@ -1,6 +1,6 @@
 package com.pluralsight.orderfulfillment.order;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Interface for order functionality

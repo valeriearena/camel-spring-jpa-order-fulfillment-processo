@@ -1,29 +1,29 @@
 package com.pluralsight.orderfulfillment.order;
 
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCenterAggregationStrategy;
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
+import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
 import java.text.SimpleDateFormat;
-
+import javax.jms.ConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.camel.CamelExchangeException;
+import org.apache.camel.EndpointInject;
+import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.xml.Namespaces;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
 import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
+import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
-
-import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCenterAggregationStrategy;
-import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
-import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-
-import javax.inject.Inject;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
@@ -32,16 +32,16 @@ import org.springframework.test.context.ContextConfiguration;
  * @author Michael Hoffman, Pluralsight
  *
  */
-@RunWith(org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner.class)
+@RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(
       classes = { ABCFulfillmentCenterRouterTest.TestConfig.class },
       loader = CamelSpringDelegatingTestContextLoader.class)
 public class ABCFulfillmentCenterRouterTest {
 
-   @org.apache.camel.Produce(uri = "direct:test")
+   @Produce(uri = "direct:test")
    protected ProducerTemplate testProducer;
 
-   @org.apache.camel.EndpointInject(uri = "mock:direct:result")
+   @EndpointInject(uri = "mock:direct:result")
    protected MockEndpoint resultEndpoint;
 
    public static String fulfillmentCenterMessage1 =
@@ -120,7 +120,7 @@ public class ABCFulfillmentCenterRouterTest {
       }
 
       @Bean
-      public javax.jms.ConnectionFactory jmsConnectionFactory() {
+      public ConnectionFactory jmsConnectionFactory() {
          return new org.apache.activemq.ActiveMQConnectionFactory(
                "tcp://localhost:61616");
       }
@@ -154,15 +154,11 @@ public class ABCFulfillmentCenterRouterTest {
             @Override
             public void configure() throws Exception {
                // Namespace is needed for XPath lookup
-               org.apache.camel.builder.xml.Namespaces namespace =
-                       new org.apache.camel.builder.xml.Namespaces("o",
-                               "http://www.pluralsight.com/orderfulfillment/Order");
+               Namespaces namespace = new org.apache.camel.builder.xml.Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");
                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-hhmmss");
-               String dateString =
-                       sdf.format(new java.util.Date(System.currentTimeMillis()));
+               String dateString = sdf.format(new java.util.Date(System.currentTimeMillis()));
 
-               onException(CamelExchangeException.class).to(
-                       "activemq:queue:ABC_FULFILLMENT_ERROR");
+               onException(CamelExchangeException.class).to("activemq:queue:ABC_FULFILLMENT_ERROR");
 
                // 1 - Route from the direct component to an ActiveMQ component
                from("direct:test").to("activemq:queue:ABC_FULFILLMENT_REQUEST");

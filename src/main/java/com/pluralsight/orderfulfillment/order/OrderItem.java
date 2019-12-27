@@ -1,10 +1,9 @@
 package com.pluralsight.orderfulfillment.order;
 
-import java.io.*;
-import java.math.*;
-import java.util.*;
-
-import com.pluralsight.orderfulfillment.catalog.*;
+import com.pluralsight.orderfulfillment.catalog.CatalogItem;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class OrderItem implements Serializable {
 

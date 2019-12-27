@@ -1,23 +1,34 @@
 package com.pluralsight.orderfulfillment.order;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import com.google.gson.Gson;
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCenterAggregationStrategy;
+import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentCenterOneProcessor;
+import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentResponse;
+import java.text.SimpleDateFormat;
+import javax.jms.ConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
+import org.apache.camel.CamelExchangeException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.xml.Namespaces;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
+import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
+import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
-
-import com.google.gson.Gson;
-import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentCenterOneProcessor;
-import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentResponse;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Test case for the fulfillment center one RESTful web service route. Leverages
@@ -29,10 +40,10 @@ import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.Fulfillment
  * @author Michael Hoffman, Pluralsight
  *
  */
-@org.junit.runner.RunWith(org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner.class)
-@org.springframework.test.context.ContextConfiguration(
+@RunWith(CamelSpringJUnit4ClassRunner.class)
+@ContextConfiguration(
       classes = { FulfillmentCenterOneRouterTest.TestConfig.class },
-      loader = org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader.class)
+      loader = CamelSpringDelegatingTestContextLoader.class)
 public class FulfillmentCenterOneRouterTest {
 
    @org.apache.camel.Produce(uri = "direct:test")
@@ -65,7 +76,7 @@ public class FulfillmentCenterOneRouterTest {
    public void tearDown() throws Exception {
    }
 
-   @org.springframework.context.annotation.Configuration
+   @Configuration
    public static class TestConfig extends SingleRouteCamelConfiguration {
       @Bean
       public FulfillmentCenterOneProcessor fulfillmentCenterOneProcessor() {
@@ -73,7 +84,7 @@ public class FulfillmentCenterOneRouterTest {
       }
 
       @Bean
-      public javax.jms.ConnectionFactory jmsConnectionFactory() {
+      public ConnectionFactory jmsConnectionFactory() {
          return new org.apache.activemq.ActiveMQConnectionFactory(
                "tcp://localhost:61616");
       }
@@ -121,6 +132,8 @@ public class FulfillmentCenterOneRouterTest {
                      .to("mock:direct:result");
 
             }
+
+
          };
       }
    }

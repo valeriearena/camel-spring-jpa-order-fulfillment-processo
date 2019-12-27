@@ -1,17 +1,22 @@
 package com.pluralsight.orderfulfillment.order;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import com.pluralsight.orderfulfillment.config.IntegrationConfig;
-import java.util.*;
-
-import javax.inject.*;
-
-import org.junit.*;
+import com.pluralsight.orderfulfillment.test.BaseJpaRepositoryTest;
+import com.pluralsight.orderfulfillment.test.TestIntegration;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.data.domain.*;
-
-import com.pluralsight.orderfulfillment.test.*;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

@@ -1,14 +1,17 @@
 package com.pluralsight.orderfulfillment.order;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.*;
-
-import javax.inject.*;
-
-import org.junit.*;
-
-import com.pluralsight.orderfulfillment.test.*;
+import com.pluralsight.orderfulfillment.test.BaseJpaRepositoryTest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.inject.Inject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class OrderItemRepositoryTest extends BaseJpaRepositoryTest {

@@ -1,18 +1,16 @@
 package com.pluralsight.orderfulfillment.catalog;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import com.pluralsight.orderfulfillment.order.OrderItemEntity;
 import com.pluralsight.orderfulfillment.test.BaseJpaRepositoryTest;
+import java.util.List;
+import java.util.Set;
+import javax.inject.Inject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CatalogItemRepositoryTest extends BaseJpaRepositoryTest {
 

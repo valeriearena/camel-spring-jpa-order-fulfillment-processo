@@ -1,14 +1,18 @@
 package com.pluralsight.orderfulfillment.order;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import com.pluralsight.orderfulfillment.catalog.CatalogItemEntity;
+import com.pluralsight.orderfulfillment.catalog.CatalogItemRepository;
+import com.pluralsight.orderfulfillment.config.Application;
+import com.pluralsight.orderfulfillment.customer.CustomerEntity;
+import com.pluralsight.orderfulfillment.customer.CustomerRepository;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,12 +25,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import com.pluralsight.orderfulfillment.catalog.CatalogItemEntity;
-import com.pluralsight.orderfulfillment.catalog.CatalogItemRepository;
-import com.pluralsight.orderfulfillment.config.Application;
-import com.pluralsight.orderfulfillment.customer.CustomerEntity;
-import com.pluralsight.orderfulfillment.customer.CustomerRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { Application.class })

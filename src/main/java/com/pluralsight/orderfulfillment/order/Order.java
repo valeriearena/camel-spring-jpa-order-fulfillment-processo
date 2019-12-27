@@ -1,8 +1,7 @@
 package com.pluralsight.orderfulfillment.order;
 
-import java.util.*;
-
-import com.pluralsight.orderfulfillment.customer.*;
+import com.pluralsight.orderfulfillment.customer.Customer;
+import java.util.Date;
 
 /**
  * Domain object for an Order

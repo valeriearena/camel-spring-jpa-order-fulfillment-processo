@@ -1,6 +1,6 @@
 package com.pluralsight.orderfulfillment.order;
 
-import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Key and value for order statuses.

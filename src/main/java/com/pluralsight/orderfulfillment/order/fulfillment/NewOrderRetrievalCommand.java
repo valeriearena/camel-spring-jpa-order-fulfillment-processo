@@ -1,14 +1,14 @@
 package com.pluralsight.orderfulfillment.order.fulfillment;
 
-import java.util.*;
-
-import javax.inject.*;
-
-import org.slf4j.*;
-import org.springframework.core.env.*;
-import org.springframework.stereotype.*;
-
-import com.pluralsight.orderfulfillment.order.*;
+import com.pluralsight.orderfulfillment.order.Order;
+import com.pluralsight.orderfulfillment.order.OrderService;
+import com.pluralsight.orderfulfillment.order.OrderStatus;
+import java.util.List;
+import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 /**
  * Command to retrieve the next set of order for processing. This includes

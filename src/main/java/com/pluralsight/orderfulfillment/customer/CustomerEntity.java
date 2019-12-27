@@ -1,11 +1,16 @@
 package com.pluralsight.orderfulfillment.customer;
 
-import java.io.*;
-import java.util.*;
-
-import javax.persistence.*;
-
-import com.pluralsight.orderfulfillment.order.*;
+import com.pluralsight.orderfulfillment.order.OrderEntity;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Customer entity

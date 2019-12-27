@@ -1,6 +1,6 @@
 package com.pluralsight.orderfulfillment.catalog;
 
-import java.io.*;
+import java.io.Serializable;
 
 //A value object that is not persisted.
 public class CatalogItem implements Serializable {

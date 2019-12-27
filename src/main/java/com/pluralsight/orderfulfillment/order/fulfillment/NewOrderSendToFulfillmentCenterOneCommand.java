@@ -1,17 +1,21 @@
 package com.pluralsight.orderfulfillment.order.fulfillment;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-
-import javax.inject.*;
-
-import org.slf4j.*;
-import org.springframework.stereotype.*;
-
-import au.com.bytecode.opencsv.*;
-
-import com.pluralsight.orderfulfillment.order.*;
+import au.com.bytecode.opencsv.CSVWriter;
+import com.pluralsight.orderfulfillment.order.Order;
+import com.pluralsight.orderfulfillment.order.OrderItem;
+import com.pluralsight.orderfulfillment.order.OrderService;
+import java.io.File;
+import java.io.FileWriter;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Command that fulfills the new order in context by sending them as an SSH

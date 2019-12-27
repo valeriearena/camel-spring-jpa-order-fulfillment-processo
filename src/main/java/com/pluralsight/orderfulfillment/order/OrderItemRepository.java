@@ -1,8 +1,10 @@
 package com.pluralsight.orderfulfillment.order;
 
-import java.util.*;
-
-import org.springframework.data.jpa.repository.*;
+import java.util.Date;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * Repository for OrderItemEntity data.

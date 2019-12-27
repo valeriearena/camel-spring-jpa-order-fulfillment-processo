@@ -32,6 +32,7 @@ public class NewOrderRouteBuilder extends RouteBuilder {
 //        + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
 //        + "?"
 //        + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
+//    //.beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
 //    .to( "log:com.pluralsight.orderfulfillment.order?level=INFO");
 //  }
 

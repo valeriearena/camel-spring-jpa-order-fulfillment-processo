@@ -2,7 +2,6 @@ package com.pluralsight.orderfulfillment.abcfulfillmentcenter;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

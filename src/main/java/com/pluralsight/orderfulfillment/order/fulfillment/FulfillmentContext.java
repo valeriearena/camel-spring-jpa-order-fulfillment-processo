@@ -1,8 +1,7 @@
 package com.pluralsight.orderfulfillment.order.fulfillment;
 
-import java.util.*;
-
-import com.pluralsight.orderfulfillment.order.*;
+import com.pluralsight.orderfulfillment.order.Order;
+import java.util.List;
 
 /**
  * Context object that will be passed to various commands for processing order
