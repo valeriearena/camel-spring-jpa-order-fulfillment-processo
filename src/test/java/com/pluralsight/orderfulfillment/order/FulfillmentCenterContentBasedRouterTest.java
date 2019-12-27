@@ -18,41 +18,40 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * will contain the appropriate fulfillment center name. Once the test is
  * executed, you can verify the message was routed appropriately using the
  * ActiveMQ admin console.
- * 
- * @author Michael Hoffman, Pluralsight.com
  *
+ * @author Michael Hoffman, Pluralsight.com
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { Application.class })
+@ContextConfiguration(classes = {Application.class})
 @ActiveProfiles("test")
 @WebAppConfiguration
 public class FulfillmentCenterContentBasedRouterTest {
 
-   public String abcFulfillmentCenterMessage = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Order xmlns=\"http://www.pluralsight.com/orderfulfillment/Order\"><OrderType><FirstName>Jane</FirstName><LastName>Smith</LastName><Email>jane@somehow.com</Email><OrderNumber>1003</OrderNumber><TimeOrderPlaced>2014-10-24T12:09:21.330-05:00</TimeOrderPlaced><FulfillmentCenter>"
-         + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.ABC_FULFILLMENT_CENTER
-               .value()
-         + "</FulfillmentCenter><OrderItems><ItemNumber>078-1344200444</ItemNumber><Price>20.00000</Price><Quantity>1</Quantity></OrderItems></OrderType></Order>";
+  public String abcFulfillmentCenterMessage = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Order xmlns=\"http://www.pluralsight.com/orderfulfillment/Order\"><OrderType><FirstName>Jane</FirstName><LastName>Smith</LastName><Email>jane@somehow.com</Email><OrderNumber>1003</OrderNumber><TimeOrderPlaced>2014-10-24T12:09:21.330-05:00</TimeOrderPlaced><FulfillmentCenter>"
+      + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.ABC_FULFILLMENT_CENTER
+      .value()
+      + "</FulfillmentCenter><OrderItems><ItemNumber>078-1344200444</ItemNumber><Price>20.00000</Price><Quantity>1</Quantity></OrderItems></OrderType></Order>";
 
-   public String fulfillmentCenter1Message = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Order xmlns=\"http://www.pluralsight.com/orderfulfillment/Order\"><OrderType><FirstName>Jane</FirstName><LastName>Smith</LastName><Email>jane@somehow.com</Email><OrderNumber>1003</OrderNumber><TimeOrderPlaced>2014-10-24T12:09:21.330-05:00</TimeOrderPlaced><FulfillmentCenter>"
-         + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.FULFILLMENT_CENTER_ONE
-               .value()
-         + "</FulfillmentCenter><OrderItems><ItemNumber>078-1344200444</ItemNumber><Price>20.00000</Price><Quantity>1</Quantity></OrderItems></OrderType></Order>";
+  public String fulfillmentCenter1Message = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Order xmlns=\"http://www.pluralsight.com/orderfulfillment/Order\"><OrderType><FirstName>Jane</FirstName><LastName>Smith</LastName><Email>jane@somehow.com</Email><OrderNumber>1003</OrderNumber><TimeOrderPlaced>2014-10-24T12:09:21.330-05:00</TimeOrderPlaced><FulfillmentCenter>"
+      + com.pluralsight.orderfulfillment.generated.FulfillmentCenter.FULFILLMENT_CENTER_ONE
+      .value()
+      + "</FulfillmentCenter><OrderItems><ItemNumber>078-1344200444</ItemNumber><Price>20.00000</Price><Quantity>1</Quantity></OrderItems></OrderType></Order>";
 
-   @EndpointInject(uri = "activemq:queue:ORDER_ITEM_PROCESSING")
-   ProducerTemplate producer;
+  @EndpointInject(uri = "activemq:queue:ORDER_ITEM_PROCESSING")
+  ProducerTemplate producer;
 
-   @Before
-   public void setUp() {
-   }
+  @Before
+  public void setUp() {
+  }
 
-   @After
-   public void tearDown() {
+  @After
+  public void tearDown() {
 
-   }
+  }
 
-   @Test
-   public void test_sendMessage() throws Exception {
-      producer.sendBody(abcFulfillmentCenterMessage);
-      producer.sendBody(fulfillmentCenter1Message);
-   }
+  @Test
+  public void test_sendMessage() throws Exception {
+    producer.sendBody(abcFulfillmentCenterMessage);
+    producer.sendBody(fulfillmentCenter1Message);
+  }
 }

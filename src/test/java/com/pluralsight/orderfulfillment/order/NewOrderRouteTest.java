@@ -23,137 +23,136 @@ import org.springframework.test.context.ContextConfiguration;
 /**
  * Test case for testing the execution of the SQL component-based route for
  * routing orders from the orders database to a log component.
- * 
+ *
  * @author Michael Hoffman, Pluralsight
- * 
  */
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-    classes = { NewOrderRouteTest.TestConfig.class },
+    classes = {NewOrderRouteTest.TestConfig.class},
     loader = CamelSpringDelegatingTestContextLoader.class)
 public class NewOrderRouteTest {
 
-   @Inject
-   private JdbcTemplate jdbcTemplate;
+  @Inject
+  private JdbcTemplate jdbcTemplate;
 
-   @Configuration
-   public static class TestConfig extends SingleRouteCamelConfiguration {
+  @Configuration
+  public static class TestConfig extends SingleRouteCamelConfiguration {
 
-      @Inject
-      private javax.sql.DataSource dataSource;
+    @Inject
+    private javax.sql.DataSource dataSource;
 
-      @Bean
-      public DataSource dataSource() {
-         BasicDataSource dataSource = new BasicDataSource();
-         dataSource.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
-         dataSource.setUrl("jdbc:derby:memory:orders;create=true");
-         return dataSource;
-      }
+    @Bean
+    public DataSource dataSource() {
+      BasicDataSource dataSource = new BasicDataSource();
+      dataSource.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
+      dataSource.setUrl("jdbc:derby:memory:orders;create=true");
+      return dataSource;
+    }
 
-      /**
-       * Spring JDBC Template used for querying the Derby database.
-       *
-       * @return
-       */
-      @Bean
-      public JdbcTemplate jdbcTemplate() {
-         JdbcTemplate jdbc = new JdbcTemplate(dataSource());
-         return jdbc;
-      }
+    /**
+     * Spring JDBC Template used for querying the Derby database.
+     *
+     * @return
+     */
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+      JdbcTemplate jdbc = new JdbcTemplate(dataSource());
+      return jdbc;
+    }
 
-      @Bean
-      public SqlComponent sql() {
-         SqlComponent sqlComponent = new SqlComponent();
-         sqlComponent.setDataSource(dataSource);
-         return sqlComponent;
-      }
+    @Bean
+    public SqlComponent sql() {
+      SqlComponent sqlComponent = new SqlComponent();
+      sqlComponent.setDataSource(dataSource);
+      return sqlComponent;
+    }
 
-      /**
-       * Derby database bean used for creating and destroying the derby database as
-       * part of the Spring container lifecycle. Note that the bean annotation sets
-       * initMethod equal to the DerbyDatabaseBean method create and sets
-       * destroyMethod to the DerbyDatabaseBean method destroy.
-       *
-       * @return
-       */
-      @Bean(initMethod = "create", destroyMethod = "destroy")
-      public DerbyDatabaseBean derbyDatabaseBean() {
-         DerbyDatabaseBean derby = new DerbyDatabaseBean();
-         derby.setJdbcTemplate(jdbcTemplate());
-         return derby;
-      }
+    /**
+     * Derby database bean used for creating and destroying the derby database as
+     * part of the Spring container lifecycle. Note that the bean annotation sets
+     * initMethod equal to the DerbyDatabaseBean method create and sets
+     * destroyMethod to the DerbyDatabaseBean method destroy.
+     *
+     * @return
+     */
+    @Bean(initMethod = "create", destroyMethod = "destroy")
+    public DerbyDatabaseBean derbyDatabaseBean() {
+      DerbyDatabaseBean derby = new DerbyDatabaseBean();
+      derby.setJdbcTemplate(jdbcTemplate());
+      return derby;
+    }
 
-      @Bean
-      @Override
-      public RouteBuilder route() {
-         return new RouteBuilder() {
+    @Bean
+    @Override
+    public RouteBuilder route() {
+      return new RouteBuilder() {
 
-            @Override
-            public void configure() throws Exception {
+        @Override
+        public void configure() throws Exception {
 
-               getContext().setTracing(true);
+          getContext().setTracing(true);
 
-               from("sql:" // from endpoint tells Camel where to get the data from the URI specified.
-                   + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
-                   + "?"
-                   + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
-               .to( "log:com.pluralsight.orderfulfillment.order?level=INFO");
+          from("sql:" // from endpoint tells Camel where to get the data from the URI specified.
+              + "select id from pluralsightorder where status = '" + OrderStatus.NEW.getCode() + "'"
+              + "?"
+              + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
+              .to("log:com.pluralsight.orderfulfillment.order?level=INFO");
 
-            }
-         };
-      }
-   }
+        }
+      };
+    }
+  }
 
 
-   /**
-    * Set up test fixture
-    * 
-    * @throws Exception
-    */
-   @Before
-   public void setUp() throws Exception {
-      // Insert catalog and customer data
-      jdbcTemplate
-            .execute("insert into catalogitem (id, itemnumber, itemname, itemtype) "
-                  + "values (1, '078-1344200444', 'Build Your Own JavaScript Framework in Just 24 Hours', 'Book')");
-      jdbcTemplate
-            .execute("insert into customer (id, firstname, lastname, email) "
-                  + "values (1, 'Larry', 'Horse', 'larry@hello.com')");
-   }
+  /**
+   * Set up test fixture
+   *
+   * @throws Exception
+   */
+  @Before
+  public void setUp() throws Exception {
+    // Insert catalog and customer data
+    jdbcTemplate
+        .execute("insert into catalogitem (id, itemnumber, itemname, itemtype) "
+            + "values (1, '078-1344200444', 'Build Your Own JavaScript Framework in Just 24 Hours', 'Book')");
+    jdbcTemplate
+        .execute("insert into customer (id, firstname, lastname, email) "
+            + "values (1, 'Larry', 'Horse', 'larry@hello.com')");
+  }
 
-   /**
-    * Tear down all test data.
-    * 
-    * @throws Exception
-    */
-   @After
-   public void tearDown() throws Exception {
-      jdbcTemplate.execute("delete from orderItem");
-      jdbcTemplate.execute("delete from pluralsightorder");
-      jdbcTemplate.execute("delete from catalogitem");
-      jdbcTemplate.execute("delete from customer");
-   }
+  /**
+   * Tear down all test data.
+   *
+   * @throws Exception
+   */
+  @After
+  public void tearDown() throws Exception {
+    jdbcTemplate.execute("delete from orderItem");
+    jdbcTemplate.execute("delete from pluralsightorder");
+    jdbcTemplate.execute("delete from catalogitem");
+    jdbcTemplate.execute("delete from customer");
+  }
 
-   /**
-    * Test the successful routing of a new website order.
-    * 
-    * @throws Exception
-    */
-   @Test
-   public void testNewWebsiteOrderRouteSuccess() throws Exception {
-      jdbcTemplate
-            .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
-                  + "values (1, 1, '1001', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
+  /**
+   * Test the successful routing of a new website order.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testNewWebsiteOrderRouteSuccess() throws Exception {
+    jdbcTemplate
+        .execute("insert into pluralsightorder (id, customer_id, orderNumber, timeorderplaced, lastupdate, status) "
+            + "values (1, 1, '1001', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
 
-      jdbcTemplate
-            .execute("insert into orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
-                  + "values (1, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
+    jdbcTemplate
+        .execute("insert into orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
+            + "values (1, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
 
-      Thread.sleep(10000);
+    Thread.sleep(10000);
 
-      int total = jdbcTemplate.queryForObject("select count(id) from pluralsightorder where status = 'P'", Integer.class);
+    int total = jdbcTemplate.queryForObject("select count(id) from pluralsightorder where status = 'P'", Integer.class);
 
-      assertEquals(1, total);
+    assertEquals(1, total);
 
-   }
+  }
 }

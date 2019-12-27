@@ -14,33 +14,33 @@ import org.junit.Test;
 
 public class CustomerRepositoryTest extends BaseJpaRepositoryTest {
 
-   @Inject
-   private CustomerRepository customerRepository;
+  @Inject
+  private CustomerRepository customerRepository;
 
-   @Before
-   public void setUp() throws Exception {
-   }
+  @Before
+  public void setUp() throws Exception {
+  }
 
-   @After
-   public void tearDown() throws Exception {
-   }
+  @After
+  public void tearDown() throws Exception {
+  }
 
-   @Test
-   public void test_findAllCustomersSuccess() throws Exception {
-      List<CustomerEntity> customers = customerRepository.findAll();
-      assertNotNull(customers);
-      assertFalse(customers.isEmpty());
-   }
-   
-   @Test
-   public void test_findCustomerOrdersSuccess() throws Exception {
-      List<CustomerEntity> customers = customerRepository.findAll();
-      assertNotNull(customers);
-      assertFalse(customers.isEmpty());
-      CustomerEntity customer = customers.get(0);
-      Set<OrderEntity> orders = customer.getOrders();
-      assertNotNull(orders);
-      assertFalse(orders.isEmpty());
-   }
+  @Test
+  public void test_findAllCustomersSuccess() throws Exception {
+    List<CustomerEntity> customers = customerRepository.findAll();
+    assertNotNull(customers);
+    assertFalse(customers.isEmpty());
+  }
+
+  @Test
+  public void test_findCustomerOrdersSuccess() throws Exception {
+    List<CustomerEntity> customers = customerRepository.findAll();
+    assertNotNull(customers);
+    assertFalse(customers.isEmpty());
+    CustomerEntity customer = customers.get(0);
+    Set<OrderEntity> orders = customer.getOrders();
+    assertNotNull(orders);
+    assertFalse(orders.isEmpty());
+  }
 
 }

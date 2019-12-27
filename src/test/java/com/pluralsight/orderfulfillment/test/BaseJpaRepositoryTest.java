@@ -16,16 +16,16 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { Application.class })
+@ContextConfiguration(classes = {Application.class})
 @WebAppConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager")
-@TestExecutionListeners(listeners = { DependencyInjectionTestExecutionListener.class,
-      DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class })
+@TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class,
+    DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class})
 @Transactional
 @Ignore
 public class BaseJpaRepositoryTest {
 
-   @PersistenceContext
-   protected EntityManager entityManager;
+  @PersistenceContext
+  protected EntityManager entityManager;
 
 }
