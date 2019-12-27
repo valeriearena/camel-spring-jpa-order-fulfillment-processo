@@ -8,7 +8,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class ABCRouteBuilder extends RouteBuilder {
 
   @Override

@@ -1,5 +1,6 @@
 package com.pluralsight.orderfulfillment.config;
 
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FileRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
@@ -85,6 +86,11 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   @Bean
   public ConnectionFactory jmsConnectionFactory() {
     return new ActiveMQConnectionFactory(environment.getProperty("activemq.broker.url"));
+  }
+
+  @Bean
+  public ABCFulfillmentProcessor aBCFulfillmentProcessor() {
+    return new ABCFulfillmentProcessor();
   }
 
   /*
