@@ -1,5 +1,6 @@
 package com.pluralsight.orderfulfillment.config;
 
+import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FileRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
@@ -141,5 +142,9 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
     return new FulfillmentCenterRouteBuilder();
   }
 
+  public RouteBuilder getFC1RouteBuilder() {
+
+    return new FC1RouteBuilder();
+  }
 
 }

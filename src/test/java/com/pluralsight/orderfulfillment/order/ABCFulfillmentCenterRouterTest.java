@@ -4,6 +4,7 @@ import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCente
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
 import java.text.SimpleDateFormat;
+import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
@@ -22,8 +23,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
@@ -147,6 +151,40 @@ public class ABCFulfillmentCenterRouterTest {
          return activeMq;
       }
 
+//      @Bean
+//      @Override
+//      public RouteBuilder route() {
+//         return new RouteBuilder() {
+//            @Override
+//            public void configure() throws Exception {
+//               // Namespace is needed for XPath lookup
+//               Namespaces namespace = new org.apache.camel.builder.xml.Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");
+//               SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-hhmmss");
+//               String dateString = sdf.format(new java.util.Date(System.currentTimeMillis()));
+//
+//               //onException(CamelExchangeException.class).to("activemq:queue:ABC_FULFILLMENT_ERROR");
+//
+//               // 1 - Route from the direct component to an ActiveMQ component
+//               from("direct:test").to("activemq:queue:ABC_FULFILLMENT_REQUEST");
+//
+//               // 2 - Aggregate XML messages from the queue.
+//               from("activemq:queue:ABC_FULFILLMENT_REQUEST")
+//               .aggregate(new ABCFulfillmentCenterAggregationStrategy())
+//               .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
+//               .ignoreInvalidCorrelationKeys()// Supresses exceptions.
+//               .completionInterval(10000)
+//               .beanRef("aBCFulfillmentProcessor", "processAggregate")
+//               .marshal()
+//               .csv()
+//               .to("file:///Users/valeriearena/camel/out?fileName=abcfc-" + dateString + ".csv")
+//               .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv"))
+//               .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#")
+//               .to("mock:direct:result");
+//            }
+//         };
+//      }
+
+
       @Bean
       @Override
       public RouteBuilder route() {
@@ -165,20 +203,16 @@ public class ABCFulfillmentCenterRouterTest {
 
                // 2 - Aggregate XML messages from the queue.
                from("activemq:queue:ABC_FULFILLMENT_REQUEST")
-                       .aggregate(constant(true),new ABCFulfillmentCenterAggregationStrategy())
-//                       .xpath(
-//                               "//*[contains(text(), '"
-//                                       + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value()
-//                                       + "')]", String.class, namespace)
-                       .completionInterval(10000)
-                       .beanRef("aBCFulfillmentProcessor", "processAggregate")
-                       .marshal()
-                       .csv()
-                       .to("file:///Users/valeriearena/camel/out?fileName=abcfc-" + dateString + ".csv")
-                       .setHeader("CamelFileName",
-                               constant("abcfc-" + dateString + ".csv"))
-                       .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#")
-                       .to("mock:direct:result");
+               .aggregate(new ABCFulfillmentCenterAggregationStrategy())
+               .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
+               .completionInterval(10000)
+               .beanRef("aBCFulfillmentProcessor", "processAggregate")
+               .marshal()
+               .csv()
+               .to("file:///Users/valeriearena/camel/out?fileName=abcfc-" + dateString + ".csv")
+               .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv"))
+               .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#")
+               .to("mock:direct:result");
             }
          };
       }

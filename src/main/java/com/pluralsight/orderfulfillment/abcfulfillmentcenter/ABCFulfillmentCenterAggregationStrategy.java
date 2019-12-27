@@ -26,8 +26,10 @@ public class ABCFulfillmentCenterAggregationStrategy implements AggregationStrat
    */
   @Override
   public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+
     // We need to store the list of messages in the old exchange; however,
     // the first new exchange processed will mean the old exchange is null.
+
     if (oldExchange == null) {
       log.info("Old exchange aggregation");
       // This is the first message to aggregate, replace the body content
