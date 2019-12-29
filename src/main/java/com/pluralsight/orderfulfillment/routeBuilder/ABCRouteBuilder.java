@@ -6,10 +6,14 @@ import java.text.SimpleDateFormat;
 import org.apache.camel.CamelExchangeException;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ABCRouteBuilder extends RouteBuilder {
+
+  @Value("${order.fulfillment.center.1.outbound.folder}")
+  private String folder;
 
   @Override
   public void configure() throws Exception {
@@ -32,10 +36,9 @@ public class ABCRouteBuilder extends RouteBuilder {
         .beanRef("aBCFulfillmentProcessor", "processAggregate")
         .marshal()
         .csv()
-        .to("file:///Users/valeriearena/camel/out?fileName=abcfc-" + dateString + ".csv")
+        .to("file://"+folder+"?fileName=abcfc-" + dateString + ".csv")
         .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv"))
-        .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#")
-        .to("mock:direct:result");
+        .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#");
 
   }
 }

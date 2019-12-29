@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FileRouteBuilder extends RouteBuilder {
 
-  @Inject
-  private Environment environment;
+//  @Inject
+//  private Environment environment;
 
   @Value("${order.fulfillment.center.1.outbound.folder}")
   private String folder;
