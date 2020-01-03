@@ -33,7 +33,7 @@ public class ABCRouteBuilder extends RouteBuilder {
         .beanRef("aBCFulfillmentProcessor", "processAggregate")
         .marshal()
         .csv()
-        .to("file://"+folder+"?fileName=abcfc-" + dateString + ".csv")
+        .to("file://" + folder + "?fileName=abcfc-" + dateString + ".csv")
         .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv"))
         .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#");
 
