@@ -25,10 +25,7 @@ public class ABCRouteBuilder extends RouteBuilder {
 
     onException(CamelExchangeException.class).to("activemq:queue:ABC_FULFILLMENT_ERROR");
 
-    // 1 - Route from the direct component to an ActiveMQ component
-    from("direct:test").to("activemq:queue:ABC_FULFILLMENT_REQUEST");
-
-    // 2 - Aggregate XML messages from the queue.
+    // Aggregate XML messages from the queue.
     from("activemq:queue:ABC_FULFILLMENT_REQUEST")
         .aggregate(new ABCFulfillmentCenterAggregationStrategy())
         .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
