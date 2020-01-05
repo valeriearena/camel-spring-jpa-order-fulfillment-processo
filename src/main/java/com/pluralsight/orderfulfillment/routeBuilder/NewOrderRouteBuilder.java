@@ -6,6 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 /**
  * Polls for any orders with status set to new, updates the order status to be in process, then route sends the orders to ActiveMQ endpoint.
  */
+//@Component
 public class NewOrderRouteBuilder extends RouteBuilder {
 
   @Override

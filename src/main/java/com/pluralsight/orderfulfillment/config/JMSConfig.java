@@ -5,7 +5,9 @@ import javax.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.camel.component.jms.JmsConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -25,6 +27,7 @@ import org.springframework.core.env.Environment;
  *
  */
 @Configuration
+@ComponentScan("com.pluralsight.orderfulfillment")
 @PropertySource("classpath:order-fulfillment.properties")
 public class JMSConfig {
 

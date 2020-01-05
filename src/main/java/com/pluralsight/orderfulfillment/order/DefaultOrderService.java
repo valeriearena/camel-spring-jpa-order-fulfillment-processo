@@ -22,6 +22,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,8 @@ import org.springframework.stereotype.Service;
  *
  * @author Michael Hoffman, Pluralsight
  */
-@Transactional
 @Service
+@Transactional
 public class DefaultOrderService implements OrderService {
   private static final Logger log = LoggerFactory
       .getLogger(DefaultOrderService.class);

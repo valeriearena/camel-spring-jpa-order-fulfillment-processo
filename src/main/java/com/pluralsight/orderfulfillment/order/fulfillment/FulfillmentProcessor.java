@@ -3,8 +3,8 @@ package com.pluralsight.orderfulfillment.order.fulfillment;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 /**
  * This is the entry point for order fulfillment processing. It provides a
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Michael Hoffman, Pluralsight
  */
-@Component
 public class FulfillmentProcessor {
 
   private static final Logger log = LoggerFactory

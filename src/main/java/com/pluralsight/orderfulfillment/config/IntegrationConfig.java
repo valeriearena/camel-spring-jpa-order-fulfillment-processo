@@ -1,27 +1,26 @@
 package com.pluralsight.orderfulfillment.config;
 
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
+import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentCenterOneProcessor;
+import com.pluralsight.orderfulfillment.order.OrderItemMessageTranslator;
 import com.pluralsight.orderfulfillment.routeBuilder.ABCRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FileRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.inject.Inject;
-import javax.jms.ConnectionFactory;
 import javax.sql.DataSource;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
-import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.sql.SqlComponent;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 
 /**
  * Spring configuration for Apache Camel.
@@ -51,12 +50,12 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   @Inject
   private JmsConfiguration jmsConfiguration;
 
-
   @Bean
   public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
     return new PropertySourcesPlaceholderConfigurer();
   }
 
+  // ************* Camel Components *************
   /**
    * Camel SQL Component.
    */
@@ -77,18 +76,12 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
     return activeMq;
   }
 
-
-  @Bean
-  public ABCFulfillmentProcessor aBCFulfillmentProcessor() {
-    return new ABCFulfillmentProcessor();
-  }
-
-
+  // ************* Camel Routes *************
   /**
    * Routes file to the /test directory.
    */
   @Bean
-  public RouteBuilder getCopyFileRouteBuilder() {
+  public RouteBuilder fileRouteBuilder() {
 
     return new FileRouteBuilder();
 
@@ -98,7 +91,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    * Routes new orders to the ORDER_ITEM_PROCESSING queue.
    */
   @Bean
-  public RouteBuilder getWebsiteOrderRouteBuilder() {
+  public RouteBuilder newOrderRouteBuilder() {
 
     return new NewOrderRouteBuilder();
 
@@ -108,7 +101,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    * Routes orders from the ORDER_ITEM_PROCESSING queue to the appropriate fulfillment center queue (ABC_FULFILLMENT_REQUEST or FC1_FULFILLMENT_REQUEST).
    */
   @Bean
-  public RouteBuilder getFulfillmentCenterContentBasedRouteBuilder() {
+  public RouteBuilder fulfillmentCenterRouteBuilder() {
 
     return new FulfillmentCenterRouteBuilder();
   }
@@ -117,7 +110,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    * Routes orders from the FC1_FULFILLMENT_REQUEST queue to /orderFulfillment/processOrders REST endpoint.
    */
   @Bean
-  public RouteBuilder getFC1RouteBuilder() {
+  public RouteBuilder fC1RouteBuilder() {
 
     return new FC1RouteBuilder();
   }
@@ -126,9 +119,25 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    * Routes orders from the ABC_FULFILLMENT_REQUEST queue to an FTP server.
    */
   @Bean
-  public RouteBuilder getABCRouteBuilder() {
+  public RouteBuilder aBCRouteBuilder() {
 
     return new ABCRouteBuilder();
+  }
+
+  // ************* Camel Processors that transform the message *************
+  @Bean
+  public FulfillmentCenterOneProcessor fulfillmentCenterOneProcessor(){
+    return new FulfillmentCenterOneProcessor();
+  }
+
+  @Bean
+  public ABCFulfillmentProcessor aBCFulfillmentProcessor(){
+    return new ABCFulfillmentProcessor();
+  }
+
+  @Bean
+  public OrderItemMessageTranslator orderItemMessageTranslator(){
+    return new OrderItemMessageTranslator();
   }
 
   /*

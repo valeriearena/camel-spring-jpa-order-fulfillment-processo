@@ -10,7 +10,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * Processor for the fulfillment center one restful web service route. Accepts
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Michael Hoffman, Pluralsight
  */
-@Component
 public class FulfillmentCenterOneProcessor {
 
   private static final Logger log = LoggerFactory.getLogger(FulfillmentCenterOneProcessor.class);

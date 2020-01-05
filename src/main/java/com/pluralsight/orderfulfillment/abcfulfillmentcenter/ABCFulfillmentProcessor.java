@@ -9,7 +9,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * Processor used by Camel as a beanref to transform one or more order XML
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Michael Hoffman, Pluralsight
  */
-@Component
 public class ABCFulfillmentProcessor {
 
   private static final Logger log = LoggerFactory.getLogger(ABCFulfillmentProcessor.class);

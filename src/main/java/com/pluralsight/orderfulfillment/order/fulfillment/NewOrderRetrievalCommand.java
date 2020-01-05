@@ -7,8 +7,8 @@ import java.util.List;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 /**
  * Command to retrieve the next set of order for processing. This includes
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Michael Hoffman, Pluralsight
  */
-@Component("newOrderRetrievalCommand")
 public class NewOrderRetrievalCommand implements FulfillmentCommand {
 
   private static final Logger log = LoggerFactory

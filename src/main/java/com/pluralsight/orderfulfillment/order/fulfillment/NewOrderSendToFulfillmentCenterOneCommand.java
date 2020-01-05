@@ -15,7 +15,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Command that fulfills the new order in context by sending them as an SSH
@@ -23,12 +23,10 @@ import org.springframework.stereotype.Component;
  *
  * @author Michael Hoffman
  */
-@Component("newOrderSendToFulfillmentCenterOneCommand")
 public class NewOrderSendToFulfillmentCenterOneCommand implements
     FulfillmentCommand {
 
-  private static final Logger log = LoggerFactory
-      .getLogger(NewOrderSendToFulfillmentCenterOneCommand.class);
+  private static final Logger log = LoggerFactory.getLogger(NewOrderSendToFulfillmentCenterOneCommand.class);
 
   @Inject
   private OrderService orderService;
