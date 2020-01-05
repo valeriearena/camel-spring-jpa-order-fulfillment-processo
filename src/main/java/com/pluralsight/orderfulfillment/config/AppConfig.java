@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Import;
  * @author Michael Hoffman, Pluralsight
  */
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
 @Import({JMSConfig.class, DataConfig.class, WebConfig.class, IntegrationConfig.class})
 public class AppConfig {
 

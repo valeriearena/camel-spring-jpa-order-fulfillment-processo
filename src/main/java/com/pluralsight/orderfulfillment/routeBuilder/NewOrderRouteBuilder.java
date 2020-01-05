@@ -22,7 +22,7 @@ public class NewOrderRouteBuilder extends RouteBuilder {
     from("sql:" // from URI is using the SQL component.
         + "select id from pluralsightorder where status = '" + OrderStatus.NEW.getCode() + "'"
         + "?"
-        + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
+        + "onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&delay=5000")
         .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
         .to("activemq:queue:ORDER_ITEM_PROCESSING");
   }

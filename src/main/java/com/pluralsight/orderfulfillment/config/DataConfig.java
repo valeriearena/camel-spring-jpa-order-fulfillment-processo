@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 // Usee @ComponentScan annotation along with @Configuration annotation to specify the packages that we want to be scanned.
 // @ComponentScan tells Spring to scan the current package and all of its sub-packages.
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
 @EnableJpaRepositories(basePackages = {"com.pluralsight.orderfulfillment"})
 @EnableTransactionManagement
 @PropertySource("classpath:order-fulfillment.properties")

@@ -20,7 +20,7 @@ public class FileRouteBuilder extends RouteBuilder {
 
     getContext().setTracing(true);
 
-    from("file://" + folder + "?noop=true")
+    from("file://" + folder + "?noop=true&delay=5000")
         .to("file://" + folder + "/test");
 
   }

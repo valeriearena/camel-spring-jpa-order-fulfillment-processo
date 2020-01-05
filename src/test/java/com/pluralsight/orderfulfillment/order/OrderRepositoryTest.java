@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,10 +26,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = {TestIntegration.class})
 public class OrderRepositoryTest extends BaseJpaRepositoryTest {
 
-  @Inject
+  @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  @Inject
+  @Autowired
   private OrderRepository orderRepository;
 
   @Before

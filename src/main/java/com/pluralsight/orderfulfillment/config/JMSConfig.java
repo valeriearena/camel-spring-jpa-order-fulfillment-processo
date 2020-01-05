@@ -27,7 +27,6 @@ import org.springframework.core.env.Environment;
  *
  */
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
 @PropertySource("classpath:order-fulfillment.properties")
 public class JMSConfig {
 

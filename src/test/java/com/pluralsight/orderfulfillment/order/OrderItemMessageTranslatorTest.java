@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -38,19 +39,19 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @Transactional
 public class OrderItemMessageTranslatorTest {
 
-  @Inject
+  @Autowired
   private OrderItemMessageTranslator translator;
 
-  @Inject
+  @Autowired
   private CustomerRepository customerRepository;
 
-  @Inject
+  @Autowired
   private CatalogItemRepository catalogItemRepository;
 
-  @Inject
+  @Autowired
   private OrderItemRepository orderItemRepository;
 
-  @Inject
+  @Autowired
   private OrderRepository orderRepository;
 
   private Long orderId;

@@ -12,14 +12,15 @@ import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class OrderItemRepositoryTest extends BaseJpaRepositoryTest {
 
-  @Inject
+  @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  @Inject
+  @Autowired
   private OrderItemRepository orderItemRepository;
 
   @Before
