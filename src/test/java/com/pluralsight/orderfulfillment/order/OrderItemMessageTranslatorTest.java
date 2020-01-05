@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import com.pluralsight.orderfulfillment.catalog.CatalogItemEntity;
 import com.pluralsight.orderfulfillment.catalog.CatalogItemRepository;
-import com.pluralsight.orderfulfillment.config.Application;
+import com.pluralsight.orderfulfillment.config.AppConfig;
 import com.pluralsight.orderfulfillment.customer.CustomerEntity;
 import com.pluralsight.orderfulfillment.customer.CustomerRepository;
 import java.math.BigDecimal;
@@ -27,7 +27,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Application.class})
+@ContextConfiguration(classes = {AppConfig.class})
 @ActiveProfiles("test")
 @WebAppConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager")

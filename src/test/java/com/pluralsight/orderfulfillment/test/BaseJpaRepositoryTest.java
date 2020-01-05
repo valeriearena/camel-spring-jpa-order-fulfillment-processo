@@ -1,6 +1,6 @@
 package com.pluralsight.orderfulfillment.test;
 
-import com.pluralsight.orderfulfillment.config.Application;
+import com.pluralsight.orderfulfillment.config.AppConfig;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.junit.Ignore;
@@ -16,7 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Application.class})
+@ContextConfiguration(classes = {AppConfig.class})
 @WebAppConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager")
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class,

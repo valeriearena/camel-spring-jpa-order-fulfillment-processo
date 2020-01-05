@@ -1,9 +1,7 @@
 package com.pluralsight.orderfulfillment.routeBuilder;
 
-import javax.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**

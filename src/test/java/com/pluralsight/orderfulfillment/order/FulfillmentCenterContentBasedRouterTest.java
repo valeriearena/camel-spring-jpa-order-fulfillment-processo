@@ -1,6 +1,6 @@
 package com.pluralsight.orderfulfillment.order;
 
-import com.pluralsight.orderfulfillment.config.Application;
+import com.pluralsight.orderfulfillment.config.AppConfig;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.junit.After;
@@ -22,7 +22,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * @author Michael Hoffman, Pluralsight.com
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Application.class})
+@ContextConfiguration(classes = {AppConfig.class})
 @ActiveProfiles("test")
 @WebAppConfiguration
 public class FulfillmentCenterContentBasedRouterTest {

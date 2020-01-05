@@ -7,8 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
@@ -21,12 +21,24 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * Data configuration for repositories.
  *
- * @author Michael Hoffman
+ * Both Spring can be configured via Java annotations or XML.
+ * Java configuration is recommended:
+ * 1. Java is more powerful.
+ * 1. Java configurations gives type safety and can be checked at compile time. XML configuration is only checked at runtime.
+ * 2. Easier to work with in IDE - code completion, refactoring, finding references, etc.
+ * 3. Complex configurations in XML can be hard to read and maintain.
+ *
+ * NOTE: When Spring sees @Bean, it will execute the method and register the return value as a bean within Spring context.
+ * By default, the bean name will be the same as the method name.
+ *
  */
+
+// Usee @ComponentScan annotation along with @Configuration annotation to specify the packages that we want to be scanned.
+// @ComponentScan tells Spring to scan the current package and all of its sub-packages.
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
 @EnableJpaRepositories(basePackages = {"com.pluralsight.orderfulfillment"})
 @EnableTransactionManagement
+@PropertySource("classpath:order-fulfillment.properties")
 public class DataConfig {
 
   @Inject

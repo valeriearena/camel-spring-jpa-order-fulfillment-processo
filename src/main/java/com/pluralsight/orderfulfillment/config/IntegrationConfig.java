@@ -17,23 +17,30 @@ import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
 /**
  * Spring configuration for Apache Camel.
- * <p>
+ *
  * Both Spring and Camel can be configured via Java annotations or XML.
  * Java configuration is recommended:
+ * 1. Java is more powerful.
  * 1. Java configurations gives type safety and can be checked at compile time. XML configuration is only checked at runtime.
  * 2. Easier to work with in IDE - code completion, refactoring, finding references, etc.
  * 3. Complex configurations in XML can be hard to read and maintain.
- * <p>
+ *
+ * Some Camel components require some specific configuration upfront.
+ * On startup, Spring creates the bean. The component returned is added as a bean inside the Spring container.
+ * Camel uses the Spring lookup to find the bean, so it can be used in routes.
+ *
  * NOTE: When Spring sees @Bean, it will execute the method and register the return value as a bean within Spring context.
  * By default, the bean name will be the same as the method name.
  */
 @Configuration
 @ComponentScan("com.pluralsight.orderfulfillment")
+@PropertySource("classpath:order-fulfillment.properties")
 public class IntegrationConfig extends CamelConfiguration { // Configure Camel in Spring context.
 
   @Inject
