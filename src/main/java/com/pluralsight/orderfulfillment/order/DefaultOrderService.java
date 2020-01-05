@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Michael Hoffman, Pluralsight
  */
-@Service
+//@Service
 @Transactional
 public class DefaultOrderService implements OrderService {
   private static final Logger log = LoggerFactory
