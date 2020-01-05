@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 /**
  * Polls for new files in the out folder and copies them to the test folder.
  */
-@Component
 public class FileRouteBuilder extends RouteBuilder {
 
 //  @Inject

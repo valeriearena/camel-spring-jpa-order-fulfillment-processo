@@ -1,6 +1,7 @@
 package com.pluralsight.orderfulfillment.config;
 
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
+import com.pluralsight.orderfulfillment.routeBuilder.ABCRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FileRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
@@ -82,6 +83,54 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
     return new ABCFulfillmentProcessor();
   }
 
+
+  /**
+   * Routes file to the /test directory.
+   */
+  @Bean
+  public RouteBuilder getCopyFileRouteBuilder() {
+
+    return new FileRouteBuilder();
+
+  }
+
+  /**
+   * Routes new orders to the ORDER_ITEM_PROCESSING queue.
+   */
+  @Bean
+  public RouteBuilder getWebsiteOrderRouteBuilder() {
+
+    return new NewOrderRouteBuilder();
+
+  }
+
+  /**
+   * Routes orders from the ORDER_ITEM_PROCESSING queue to the appropriate fulfillment center queue (ABC_FULFILLMENT_REQUEST or FC1_FULFILLMENT_REQUEST).
+   */
+  @Bean
+  public RouteBuilder getFulfillmentCenterContentBasedRouteBuilder() {
+
+    return new FulfillmentCenterRouteBuilder();
+  }
+
+  /**
+   * Routes orders from the FC1_FULFILLMENT_REQUEST queue to /orderFulfillment/processOrders REST endpoint.
+   */
+  @Bean
+  public RouteBuilder getFC1RouteBuilder() {
+
+    return new FC1RouteBuilder();
+  }
+
+  /**
+   * Routes orders from the ABC_FULFILLMENT_REQUEST queue to an FTP server.
+   */
+  @Bean
+  public RouteBuilder getABCRouteBuilder() {
+
+    return new ABCRouteBuilder();
+  }
+
   /*
    * The route copies a file to the /test directory.
    *
@@ -106,40 +155,5 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
 //
 //      return routeList;
 //   }
-
-
-  /**
-   * Routes file to the /test directory.
-   */
-  //@Bean
-  public RouteBuilder getCopyFileRouteBuilder() {
-
-    return new FileRouteBuilder();
-
-  }
-
-  /**
-   * Routes new orders to the ORDER_ITEM_PROCESSING queue.
-   */
-  //@Bean
-  public RouteBuilder getWebsiteOrderRouteBuilder() {
-
-    return new NewOrderRouteBuilder();
-
-  }
-
-  /**
-   * Routes orders from the ORDER_ITEM_PROCESSING queue to the appropriate fulfillment center.
-   */
-  //@Bean
-  public RouteBuilder getFulfillmentCenterContentBasedRouteBuilder() {
-
-    return new FulfillmentCenterRouteBuilder();
-  }
-
-  public RouteBuilder getFC1RouteBuilder() {
-
-    return new FC1RouteBuilder();
-  }
 
 }

@@ -4,7 +4,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
-@Component
 public class FC1RouteBuilder extends RouteBuilder {
 
   @Override

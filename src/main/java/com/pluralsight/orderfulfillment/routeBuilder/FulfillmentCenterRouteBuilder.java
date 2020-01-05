@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
  * <Order xmlns="http://www.pluralsight.com/orderfulfillment/Order">
  * <OrderType> <FulfillmentCenter>ABCFulfillmentCenter</FulfillmentCenter>
  */
-@Component
 public class FulfillmentCenterRouteBuilder extends RouteBuilder {
 
   @Override
