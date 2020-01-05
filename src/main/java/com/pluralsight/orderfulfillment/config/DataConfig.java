@@ -44,7 +44,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource("classpath:order-fulfillment.properties")
 public class DataConfig {
 
-  @Inject
+  @Autowired
   private Environment environment;
 
   @Bean

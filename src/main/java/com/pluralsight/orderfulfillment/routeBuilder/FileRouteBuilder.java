@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 //@Component
 public class FileRouteBuilder extends RouteBuilder {
 
-//  @Inject
+//  @Autowired
 //  private Environment environment;
 
   @Value("${order.fulfillment.center.1.outbound.folder}")
   private String folder;
-
-  public FileRouteBuilder() {
-  }
 
   @Override
   public void configure() throws Exception {

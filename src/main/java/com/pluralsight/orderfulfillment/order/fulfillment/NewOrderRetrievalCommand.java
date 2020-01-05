@@ -22,10 +22,10 @@ public class NewOrderRetrievalCommand implements FulfillmentCommand {
   private static final Logger log = LoggerFactory
       .getLogger(NewOrderRetrievalCommand.class);
 
-  @Inject
+  @Autowired
   private Environment environment;
 
-  @Inject
+  @Autowired
   private OrderService orderService;
 
   /*

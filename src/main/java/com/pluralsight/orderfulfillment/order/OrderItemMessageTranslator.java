@@ -12,7 +12,7 @@ public class OrderItemMessageTranslator {
   private static final Logger log = LoggerFactory
       .getLogger(OrderItemMessageTranslator.class);
 
-  @Inject
+  @Autowired
   private OrderService orderService;
 
   public String transformToOrderItemMessage(Map<String, Object> orderIds) {

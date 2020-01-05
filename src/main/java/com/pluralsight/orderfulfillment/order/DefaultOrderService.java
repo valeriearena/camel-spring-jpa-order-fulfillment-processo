@@ -37,13 +37,13 @@ public class DefaultOrderService implements OrderService {
   private static final Logger log = LoggerFactory
       .getLogger(DefaultOrderService.class);
 
-  @Inject
+  @Autowired
   private OrderRepository orderRepository;
 
-  @Inject
+  @Autowired
   private OrderItemRepository orderItemRepository;
 
-  @Inject
+  @Autowired
   private FulfillmentProcessor fulfillmentProcessor;
 
   @Override

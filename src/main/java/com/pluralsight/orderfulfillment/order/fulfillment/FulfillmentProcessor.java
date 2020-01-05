@@ -18,11 +18,11 @@ public class FulfillmentProcessor {
   private static final Logger log = LoggerFactory
       .getLogger(FulfillmentProcessor.class);
 
-  @Inject
+  @Autowired
   @Qualifier("newOrderRetrievalCommand")
   private FulfillmentCommand newOrderRetrievalCommand;
 
-  @Inject
+  @Autowired
   @Qualifier("newOrderSendToFulfillmentCenterOneCommand")
   private FulfillmentCommand newOrderSendToFulfillmentCenterOneCommand;
 

@@ -42,10 +42,10 @@ import org.springframework.test.context.ContextConfiguration;
 public class ABCFulfillmentCenterRouterTest {
 
   @Produce(uri = "direct:test")
-  protected ProducerTemplate testProducer;
+  private ProducerTemplate testProducer;
 
   @EndpointInject(uri = "mock:direct:result")
-  protected MockEndpoint resultEndpoint;
+  private MockEndpoint resultEndpoint;
 
   public static String fulfillmentCenterMessage1 =
       "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"

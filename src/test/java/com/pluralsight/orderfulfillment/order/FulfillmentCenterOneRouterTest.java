@@ -48,10 +48,10 @@ import org.springframework.test.context.ContextConfiguration;
 public class FulfillmentCenterOneRouterTest {
 
   @Produce(uri = "direct:test")
-  protected ProducerTemplate testProducer;
+  private ProducerTemplate testProducer; // Mock producer
 
   @EndpointInject(uri = "mock:direct:result")
-  protected MockEndpoint resultEndpoint;
+  private MockEndpoint resultEndpoint; // Mock REST endpoint
 
   public static String fulfillmentCenter1Message =
       "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"

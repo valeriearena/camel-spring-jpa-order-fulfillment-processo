@@ -44,10 +44,10 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @PropertySource("classpath:order-fulfillment.properties")
 public class IntegrationConfig extends CamelConfiguration { // Configure Camel in Spring context.
 
-  @Inject
+  @Autowired
   private DataSource dataSource;
 
-  @Inject
+  @Autowired
   private JmsConfiguration jmsConfiguration;
 
   @Bean

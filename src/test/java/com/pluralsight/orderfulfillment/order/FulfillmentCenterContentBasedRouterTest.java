@@ -2,6 +2,7 @@ package com.pluralsight.orderfulfillment.order;
 
 import com.pluralsight.orderfulfillment.config.AppConfig;
 import org.apache.camel.EndpointInject;
+import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.junit.After;
 import org.junit.Before;
@@ -37,8 +38,8 @@ public class FulfillmentCenterContentBasedRouterTest {
       .value()
       + "</FulfillmentCenter><OrderItems><ItemNumber>078-1344200444</ItemNumber><Price>20.00000</Price><Quantity>1</Quantity></OrderItems></OrderType></Order>";
 
-  @EndpointInject(uri = "activemq:queue:ORDER_ITEM_PROCESSING")
-  ProducerTemplate producer;
+  @Produce(uri = "activemq:queue:ORDER_ITEM_PROCESSING")
+  private ProducerTemplate producer; // Mock producer
 
   @Before
   public void setUp() {

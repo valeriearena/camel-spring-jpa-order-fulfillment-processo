@@ -21,7 +21,7 @@ public class OrderController {
   private static final Logger log = LoggerFactory
       .getLogger(OrderController.class);
 
-  @Inject
+  @Autowired
   private OrderService orderService;
 
   /**

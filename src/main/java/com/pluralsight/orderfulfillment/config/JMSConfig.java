@@ -31,7 +31,7 @@ import org.springframework.core.env.Environment;
 @PropertySource("classpath:order-fulfillment.properties")
 public class JMSConfig {
 
-  @Inject
+  @Autowired
   private Environment environment;
 
   @Bean
