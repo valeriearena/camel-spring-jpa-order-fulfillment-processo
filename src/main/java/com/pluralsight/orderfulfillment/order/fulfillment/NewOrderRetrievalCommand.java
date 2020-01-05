@@ -4,7 +4,6 @@ import com.pluralsight.orderfulfillment.order.Order;
 import com.pluralsight.orderfulfillment.order.OrderService;
 import com.pluralsight.orderfulfillment.order.OrderStatus;
 import java.util.List;
-import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,6 @@ package com.pluralsight.orderfulfillment.order;
 import static org.junit.Assert.assertEquals;
 
 import com.pluralsight.orderfulfillment.test.DerbyDatabaseBean;
-import javax.inject.Inject;
 import javax.sql.DataSource;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.sql.SqlComponent;

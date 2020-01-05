@@ -7,7 +7,6 @@ import com.pluralsight.orderfulfillment.order.fulfillment.FulfillmentProcessor;
 import com.pluralsight.orderfulfillment.order.fulfillment.NewOrderRetrievalCommand;
 import com.pluralsight.orderfulfillment.order.fulfillment.NewOrderSendToFulfillmentCenterOneCommand;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -17,28 +16,28 @@ import org.springframework.context.annotation.Import;
  * @author Michael Hoffman, Pluralsight
  */
 @Configuration
-@Import({JMSConfig.class, DataConfig.class, WebConfig.class, IntegrationConfig.class})
+@Import( {JMSConfig.class, DataConfig.class, WebConfig.class, IntegrationConfig.class})
 public class AppConfig {
 
   // ************* Spring beans used by the code that was refactored and replaced by Camel routes. *************
 
   @Bean
-  public OrderService orderService(){
+  public OrderService orderService() {
     return new DefaultOrderService();
   }
 
   @Bean
-  public FulfillmentProcessor fulfillmentProcessor(){
+  public FulfillmentProcessor fulfillmentProcessor() {
     return new FulfillmentProcessor();
   }
 
   @Bean
-  public FulfillmentCommand newOrderRetrievalCommand(){
+  public FulfillmentCommand newOrderRetrievalCommand() {
     return new NewOrderRetrievalCommand();
   }
 
   @Bean
-  public FulfillmentCommand newOrderSendToFulfillmentCenterOneCommand(){
+  public FulfillmentCommand newOrderSendToFulfillmentCenterOneCommand() {
     return new NewOrderSendToFulfillmentCenterOneCommand();
   }
 

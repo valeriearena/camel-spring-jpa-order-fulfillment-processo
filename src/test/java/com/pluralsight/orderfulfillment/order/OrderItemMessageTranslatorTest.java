@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,6 @@
 package com.pluralsight.orderfulfillment.order;
 
 import com.pluralsight.orderfulfillment.config.AppConfig;
-import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.junit.After;

@@ -4,7 +4,6 @@ import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCente
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
 import java.text.SimpleDateFormat;
-import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
@@ -23,11 +22,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 
 /**

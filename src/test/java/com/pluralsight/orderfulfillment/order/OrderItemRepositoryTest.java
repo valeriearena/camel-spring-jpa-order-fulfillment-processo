@@ -8,7 +8,6 @@ import com.pluralsight.orderfulfillment.test.BaseJpaRepositoryTest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
