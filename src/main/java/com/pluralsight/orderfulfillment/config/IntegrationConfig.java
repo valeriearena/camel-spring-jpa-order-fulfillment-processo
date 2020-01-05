@@ -7,6 +7,7 @@ import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuild
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.inject.Inject;
 import javax.jms.ConnectionFactory;
+import javax.sql.DataSource;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.pool.PooledConnectionFactory;
@@ -44,10 +45,11 @@ import org.springframework.core.env.Environment;
 public class IntegrationConfig extends CamelConfiguration { // Configure Camel in Spring context.
 
   @Inject
-  private javax.sql.DataSource dataSource;
+  private DataSource dataSource;
 
   @Inject
-  private Environment environment;
+  private JmsConfiguration jmsConfiguration;
+
 
   @Bean
   public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
@@ -70,30 +72,10 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   @Bean
   public ActiveMQComponent activeMq() {
     ActiveMQComponent activeMq = new ActiveMQComponent();
-    activeMq.setConfiguration(jmsConfiguration());
+    activeMq.setConfiguration(jmsConfiguration);
     return activeMq;
   }
 
-  @Bean
-  public JmsConfiguration jmsConfiguration() {
-    JmsConfiguration jmsConfiguration = new JmsConfiguration();
-    jmsConfiguration.setConnectionFactory(pooledConnectionFactory());
-    return jmsConfiguration;
-  }
-
-  @Bean(initMethod = "start", destroyMethod = "stop")
-  public PooledConnectionFactory pooledConnectionFactory() {
-    PooledConnectionFactory factory = new PooledConnectionFactory();
-    factory.setConnectionFactory(jmsConnectionFactory());
-    factory.setMaxConnections(Integer.parseInt(environment
-        .getProperty("pooledConnectionFactory.maxConnections")));
-    return factory;
-  }
-
-  @Bean
-  public ConnectionFactory jmsConnectionFactory() {
-    return new ActiveMQConnectionFactory(environment.getProperty("activemq.broker.url"));
-  }
 
   @Bean
   public ABCFulfillmentProcessor aBCFulfillmentProcessor() {

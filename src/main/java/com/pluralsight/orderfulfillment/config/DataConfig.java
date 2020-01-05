@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Data configuration for repositories.
+ * Data configuration.
  *
  * Both Spring can be configured via Java annotations or XML.
  * Java configuration is recommended:
