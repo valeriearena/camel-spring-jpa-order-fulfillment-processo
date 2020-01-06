@@ -6,7 +6,6 @@ import org.apache.activemq.pool.PooledConnectionFactory;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -25,8 +24,6 @@ import org.springframework.core.env.Environment;
  * By default, the bean name will be the same as the method name.
  */
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
-@PropertySource("classpath:order-fulfillment.properties")
 public class JMSConfig {
 
   @Autowired

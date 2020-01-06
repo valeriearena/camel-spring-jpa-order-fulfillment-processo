@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Command that fulfills the new order in context by sending them as an SSH
@@ -27,7 +27,7 @@ public class NewOrderSendToFulfillmentCenterOneCommand implements
 
   private static final Logger log = LoggerFactory.getLogger(NewOrderSendToFulfillmentCenterOneCommand.class);
 
-  @Inject
+  @Autowired
   private OrderService orderService;
 
   @Override

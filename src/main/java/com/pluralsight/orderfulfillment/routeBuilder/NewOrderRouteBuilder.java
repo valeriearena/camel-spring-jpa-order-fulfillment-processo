@@ -5,6 +5,21 @@ import org.apache.camel.builder.RouteBuilder;
 
 /**
  * Polls for any orders with status set to new, updates the order status to be in process, then route sends the orders to ActiveMQ endpoint.
+ *
+ * The exchange is transformed at each step.
+ * The Log component logs the transformed message to a log file, which can be used to view the exchange and how it's transformed.
+ *
+ * The following is an example of a message transformation of an exchange sent to ABCFulfillmentCenter.
+ *
+ *  Exchange[ExchangePattern: InOnly, BodyType: org.springframework.util.LinkedCaseInsensitiveMap, Body: {id=1}]
+ *  Exchange[ExchangePattern: InOnly, BodyType: String, Body: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><Order xmlns="http://www.pluralsight.com/orderfulfillment/Order">    <OrderType>        <FirstName>Michael</FirstName>        <LastName>Hoffman</LastName>        <Email>mike@michaelhoffmaninc.com</Email>        <OrderNumber>1001</OrderNumber>        <TimeOrderPlaced>2019-12-17T06:39:50.987-05:00</TimeOrderPlaced>        <FulfillmentCenter>FulfillmentCenterOne</FulfillmentCenter>        <OrderItems>            <ItemNumber>44910432221</ItemNumber>            <Price>1.25000</Price>            <Quantity>10</Quantity>        </OrderItems>        <OrderItems>            <ItemNumber>078-1344200444</ItemNumber>            <Price>20.00000</Price>            <Quantity>1</Quantity>        </OrderItems>    </OrderType></Order>]
+ *  Exchange[ExchangePattern: InOnly, BodyType: String, Body: {"orders":[{"firstName":"Michael","email":"mike@michaelhoffmaninc.com","orderNumber":"1001","timeOrderPlaced":"Dec 17, 2019, 6:39:50 AM","orderItems":[{"itemNumber":"44910432221","price":1.25000,"quantity":10},{"itemNumber":"078-1344200444","price":20.00000,"quantity":1}]}]}]
+ *
+ * The following is an example of a message transformation of an exchange sent to FulfillmentCenterOne.
+ *
+ *  Exchange[ExchangePattern: InOnly, BodyType: org.springframework.util.LinkedCaseInsensitiveMap, Body: {id=1}]
+ *  Exchange[ExchangePattern: InOnly, BodyType: String, Body: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><Order xmlns="http://www.pluralsight.com/orderfulfillment/Order">    <OrderType>        <FirstName>Michael</FirstName>        <LastName>Hoffman</LastName>        <Email>mike@michaelhoffmaninc.com</Email>        <OrderNumber>1001</OrderNumber>        <TimeOrderPlaced>2019-12-17T06:39:50.987-05:00</TimeOrderPlaced>        <FulfillmentCenter>FulfillmentCenterOne</FulfillmentCenter>        <OrderItems>            <ItemNumber>44910432221</ItemNumber>            <Price>1.25000</Price>            <Quantity>10</Quantity>        </OrderItems>        <OrderItems>            <ItemNumber>078-1344200444</ItemNumber>            <Price>20.00000</Price>            <Quantity>1</Quantity>        </OrderItems>    </OrderType></Order>]
+ *  Exchange[ExchangePattern: InOnly, BodyType: byte[], Body: Order Number,First Name,Last Name1005,Ron,River1006,Larry,Horse1007,Michael,Hoffman]
  */
 //@Component
 public class NewOrderRouteBuilder extends RouteBuilder {
@@ -20,7 +35,7 @@ public class NewOrderRouteBuilder extends RouteBuilder {
     // Call the OrderItemMessageTranslator bean and execute the method for translation.
     // Send new orders to the ORDER_ITEM_PROCESSING queue.
 
-    // We are using bean integration for message transformation using Camel's application context registry to look up objects. That's how Camel finds Spring beans.
+    // We are using beanRef for message transformation using Camel's ApplicationContextRegistry to look up objects. That's how Camel finds Spring beans.
     // We pass in the bean ID to beanRef and the method to call on the bean.
     // The beanRef method will automatically bind the body of the inbound message to the parameter we defined in the method.
     // The beanRef will read the orderId from the inbound message and will return XML (defined by the XSD).

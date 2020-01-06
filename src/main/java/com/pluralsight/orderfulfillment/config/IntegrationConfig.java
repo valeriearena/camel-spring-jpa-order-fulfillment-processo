@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 /**
@@ -37,8 +36,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 // Usee @ComponentScan annotation along with @Configuration annotation to specify the packages that we want to be scanned.
 // @ComponentScan tells Spring to scan the current package and all of its sub-packages.
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
-@PropertySource("classpath:order-fulfillment.properties")
 public class IntegrationConfig extends CamelConfiguration { // Configure Camel in Spring context.
 
   @Autowired

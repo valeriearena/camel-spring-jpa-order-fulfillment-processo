@@ -1,7 +1,6 @@
 package com.pluralsight.orderfulfillment.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -25,7 +24,6 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
  * By default, the bean name will be the same as the method name.
  */
 @Configuration
-@ComponentScan("com.pluralsight.orderfulfillment")
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 

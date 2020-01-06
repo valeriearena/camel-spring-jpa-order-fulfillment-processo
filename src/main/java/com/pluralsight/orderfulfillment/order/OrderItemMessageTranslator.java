@@ -16,7 +16,9 @@ public class OrderItemMessageTranslator {
   /**
    * Camel binds the body of the SQL component message to the Map parameter.
    *
-   * The log output can be used to identify message types. You can also use the Camel component documention, which will specify the return type.
+   * The Log component logs the transformed message.
+   * The log output can be used to identify message types.
+   * You can also use the Camel component documention, which will specify the return type.
    * Exchange [ExchangePattern: InOnly, BodyType: org.springframework.util.LinkedCaseInsensitiveMap, Body: {id=1}]
    *
    * Log component URI syntax: log:[package][?options]
