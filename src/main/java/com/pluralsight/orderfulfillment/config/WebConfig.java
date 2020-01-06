@@ -1,6 +1,7 @@
 package com.pluralsight.orderfulfillment.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,14 +16,16 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
  *
  * Both Spring can be configured via Java annotations or XML.
  * Java configuration is recommended:
- * 1. Java configurations gives type safety and can be checked at compile time. XML configuration is only checked at runtime.
- * 2. Easier to work with in IDE - code completion, refactoring, finding references, etc.
- * 3. Complex configurations in XML can be hard to read and maintain.
+ * 1. Java configurations provide additional functionality that is not available in XML.
+ * 2. Java configurations gives type safety and can be checked at compile time. XML configuration is only checked at runtime.
+ * 3. Easier to work with in IDE - code completion, refactoring, finding references, etc.
+ * 4. Complex configurations in XML can be hard to read and maintain.
  *
  * NOTE: When Spring sees @Bean, it will execute the method and register the return value as a bean within Spring context.
  * By default, the bean name will be the same as the method name.
  */
 @Configuration
+@ComponentScan("com.pluralsight.orderfulfillment")
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
