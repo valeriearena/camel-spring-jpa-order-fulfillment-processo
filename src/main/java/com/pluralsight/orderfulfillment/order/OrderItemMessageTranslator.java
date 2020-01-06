@@ -15,6 +15,19 @@ public class OrderItemMessageTranslator {
 
   /**
    * Camel binds the body of the SQL component message to the Map parameter.
+   *
+   * The log output can be used to identify message types. You can also use the Camel component documention, which will specify the return type.
+   * Exchange [ExchangePattern: InOnly, BodyType: org.springframework.util.LinkedCaseInsensitiveMap, Body: {id=1}]
+   *
+   * Log component URI syntax: log:[package][?options]
+   * from("sql:"
+   *  + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
+   *  + "?"
+   *  + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
+   *  .to( "log:com.pluralsight.orderfulfillment.order?level=INFO");
+   *
+   * NOTE: Depending on the component, message types can be specified as an option in the URI.
+   *
    */
   public String transformToOrderItemMessage(Map<String, Object> orderIds) {
     String output = null;

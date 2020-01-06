@@ -25,8 +25,6 @@ public class NewOrderRouteBuilder extends RouteBuilder {
     // The beanRef method will automatically bind the body of the inbound message to the parameter we defined in the method.
     // The beanRef will read the orderId from the inbound message and will return XML (defined by the XSD).
 
-    // NOTE: Camel's automatic type conversion.
-
     from("sql:" // from URI is using the SQL component.
         + "select id from pluralsightorder where status = '" + OrderStatus.NEW.getCode() + "'"
         + "?"
@@ -34,16 +32,6 @@ public class NewOrderRouteBuilder extends RouteBuilder {
         .beanRef("orderItemMessageTranslator", "transformToOrderItemMessage")
         .to("activemq:queue:ORDER_ITEM_PROCESSING");
 
-        // Log component URI syntax: log:[package][?options]
-        // from("sql:"
-        //    + "select id from pluralsightorder where status = '"+ OrderStatus.NEW.getCode() + "'"
-        //    + "?"
-        //    + "consumer.onConsume=update pluralsightorder set status = '" + OrderStatus.PROCESSING.getCode() + "' where id = :#id&consumer.delay=5000")
-        // .to( "log:com.pluralsight.orderfulfillment.order?level=INFO");
-
-        // The log output can be used to identify message types. You can also use the Camel component documention, which will specify the return type.
-        // Exchange [ExchangePattern: InOnly, BodyType: org.springframework.util.LinkedCaseInsensitiveMap, Body: {id=1}]
-        // NOTE: Depending on the component, message types can be specified as an option in the URI.
   }
 
 

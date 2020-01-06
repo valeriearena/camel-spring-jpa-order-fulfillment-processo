@@ -23,10 +23,6 @@ public class ABCFulfillmentProcessor {
   /**
    * Camel will call this method and bind the body of the inbound message to
    * the orders List parameter.
-   *
-   * @param orders
-   * @return
-   * @throws Exception
    */
   public List<Map<String, Object>> processAggregate(List orders)
       throws Exception {
