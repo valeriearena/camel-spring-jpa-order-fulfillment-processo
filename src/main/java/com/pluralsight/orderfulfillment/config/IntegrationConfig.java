@@ -55,7 +55,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   // ************* Camel Components *************
 
   /**
-   * Camel SQL Component.
+   * Camel SQL Component (camel-sql uses Spring JDBC library)
    */
   @Bean
   public SqlComponent sql() {
@@ -75,6 +75,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   }
 
   // ************* Camel Routes *************
+  // Routes defined as Spring beans are automatically scanned when loading the CamelContext into Spring.
 
   /**
    * Routes file to the /test directory.

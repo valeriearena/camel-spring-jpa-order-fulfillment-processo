@@ -9,6 +9,7 @@ import com.pluralsight.orderfulfillment.order.fulfillment.NewOrderSendToFulfillm
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * Main application configuration for the order fulfillment processor.
@@ -27,6 +28,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("com.pluralsight.orderfulfillment")
+@Import( {JMSConfig.class, DataConfig.class, WebConfig.class, IntegrationConfig.class})
 public class AppConfig {
 
   // ************* Spring beans used by the code that was refactored and replaced by Camel routes. *************

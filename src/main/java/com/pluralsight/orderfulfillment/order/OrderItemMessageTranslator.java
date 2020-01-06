@@ -13,6 +13,9 @@ public class OrderItemMessageTranslator {
   @Autowired
   private OrderService orderService;
 
+  /**
+   * Camel binds the body of the SQL component message to the Map parameter.
+   */
   public String transformToOrderItemMessage(Map<String, Object> orderIds) {
     String output = null;
     try {
