@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Aggregate the old and new exchange body content. As a result of aggregation,
- * we should have a list of XML strings.
+ * Aggregate the old and new exchange body content.
+ * As a result of aggregation, we should have a list of XML strings.
  *
  * @author Michael Hoffman, Pluralsight
  */
@@ -17,13 +17,6 @@ public class ABCFulfillmentCenterAggregationStrategy implements AggregationStrat
 
   private static final Logger log = LoggerFactory.getLogger(ABCFulfillmentCenterAggregationStrategy.class);
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * org.apache.camel.processor.aggregate.AggregationStrategy#aggregate(org
-   * .apache.camel.Exchange, org.apache.camel.Exchange)
-   */
   @Override
   public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
 

@@ -193,7 +193,7 @@ public class ABCFulfillmentCenterRouterTest {
 
           onException(CamelExchangeException.class).to("activemq:queue:ABC_FULFILLMENT_ERROR");
 
-          // 1 - Route from the direct component to an ActiveMQ component
+          // 1 - Route from the direct component to an ActiveMQ component. We can send messages by directly invoking consumer.
           from("direct:test").to("activemq:queue:ABC_FULFILLMENT_REQUEST");
 
           // 2 - Aggregate XML messages from the queue.
@@ -220,13 +220,16 @@ public class ABCFulfillmentCenterRouterTest {
    */
   @Test
   public void test_success() throws Exception {
+
     // 1 - Send the XML as the body of the message through the route
     testProducer.sendBody(fulfillmentCenterMessage1);
     testProducer.sendBody(fulfillmentCenterMessage2);
     testProducer.sendBody(fulfillmentCenterMessage3);
     testProducer.sendBody(fulfillmentCenterMessage4);
+
     // 2 - Wait until aggregation is complete.
     Thread.sleep(20000);
+
     // 3 - Print out the results to manually verify the aggregated message.
     System.err.println(resultEndpoint.getExchanges().size());
   }

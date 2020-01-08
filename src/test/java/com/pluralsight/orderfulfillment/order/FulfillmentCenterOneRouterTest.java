@@ -117,7 +117,7 @@ public class FulfillmentCenterOneRouterTest {
 
           // 1 - Route from the direct component to an ActiveMQ component
           // The Camel direct component is a way to directly invoke a consumer.
-          // When we directly send a message to this URI, the message will be consumed then sent to ActiveMQ.
+          // When we directly send a message to this URI, the message will be consumed by the FC1_FULFILLMENT_REQUEST.
           from("direct:test").to("activemq:queue:FC1_FULFILLMENT_REQUEST");
 
           // 2 - Route from the ActiveMQ component through the message processor for fulfillment center one

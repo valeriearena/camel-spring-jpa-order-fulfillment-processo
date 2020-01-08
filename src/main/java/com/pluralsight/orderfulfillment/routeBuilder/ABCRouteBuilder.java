@@ -7,6 +7,22 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * Route builder to implement production to a SFTP server.
+ *
+ * The route takes messages from the ABC_FULFILLMENT_REQUEST queue and aggregates them.
+ *  - The correlation expression uses xpath to evalute the messages to check if this is a message that needs to be aggregated.
+ *  - The completion condition tells us when to stop.
+ *  - The AggregationStrategy aggregates the messages.
+ *  - Because the Aggregator router is a stateful processor, the aggregate must be persisted. In-memory persistence is the default and is what we are using.
+ *
+ * The aggregation is then processed by a bean that creates a list of maps for the orders.
+ * The list of maps is then marshalled to CSV.
+ * The CSV data is saved to a file and then SFTP'd to the server.
+ * An exception dead letter channel was defined for any exceptions that occur related to camel exchange processing.
+ *
+ */
+
 //@Component
 public class ABCRouteBuilder extends RouteBuilder {
 
@@ -19,6 +35,9 @@ public class ABCRouteBuilder extends RouteBuilder {
     // Namespace is needed for XPath lookup
     Namespaces namespace = new org.apache.camel.builder.xml.Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");
 
+    // onException is the equivalent of a try/catch block.
+    // In this example, messages will be rerouted to an failure queue.
+    // Camel also provides support for the redelivery of messsages via a redelivery policy.
     onException(CamelExchangeException.class).to("activemq:queue:ABC_FULFILLMENT_ERROR");
 
     // Send from the ABC_FULFILLMENT_REQUEST queue to the FTP server.
@@ -26,11 +45,11 @@ public class ABCRouteBuilder extends RouteBuilder {
     // Aggregate XML messages from the queue.
     from("activemq:queue:ABC_FULFILLMENT_REQUEST")
         .aggregate(new ABCFulfillmentCenterAggregationStrategy())
-        .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
-        .completionInterval(10000)
+          .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
+          .completionInterval(10000)
         .beanRef("aBCFulfillmentProcessor", "processAggregate")
         .marshal()
-        .csv()
+          .csv()
         .to("file://" + folder + "?fileName=abc-fulfillment-center.csv")
         .setHeader("CamelFileName", constant("abc-fulfillment-center.csv"))
         .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#");
