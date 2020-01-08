@@ -19,7 +19,7 @@
         <level value="warn"/>
     </logger>
     <logger name="org.apache.camel">
-        <level value="info"/>
+        <level value="debug"/>
     </logger>
     <logger name="org.springframework">
         <level value="warn"/>
