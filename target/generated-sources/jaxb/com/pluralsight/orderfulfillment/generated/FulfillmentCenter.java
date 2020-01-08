@@ -35,7 +35,10 @@ public enum FulfillmentCenter {
     @XmlEnumValue("FulfillmentCenterOne")
     FULFILLMENT_CENTER_ONE("FulfillmentCenterOne"),
     @XmlEnumValue("ABCFulfillmentCenter")
-    ABC_FULFILLMENT_CENTER("ABCFulfillmentCenter");
+    ABC_FULFILLMENT_CENTER("ABCFulfillmentCenter"),
+    @XmlEnumValue("UnknownFulfillmentCenter")
+    UNKNOWN_FULFILLMENT_CENTER("UnknownFulfillmentCenter");
+
     private final String value;
 
     FulfillmentCenter(String v) {

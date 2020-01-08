@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class OrderItemMessageTranslator {
+public class OrderItemMessageProcessor {
 
   private static final Logger log = LoggerFactory
-      .getLogger(OrderItemMessageTranslator.class);
+      .getLogger(OrderItemMessageProcessor.class);
 
   @Autowired
   private OrderService orderService;
@@ -31,7 +31,7 @@ public class OrderItemMessageTranslator {
    * NOTE: Depending on the component, message types can be specified as an option in the URI.
    *
    */
-  public String transformToOrderItemMessage(Map<String, Object> orderIds) {
+  public String transformToXML(Map<String, Object> orderIds) {
     String output = null;
     try {
       if (orderIds == null) {

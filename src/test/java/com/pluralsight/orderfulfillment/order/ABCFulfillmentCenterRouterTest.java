@@ -201,7 +201,7 @@ public class ABCFulfillmentCenterRouterTest {
               .aggregate(new ABCFulfillmentCenterAggregationStrategy())
                 .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
                 .completionInterval(10000)
-              .beanRef("aBCFulfillmentProcessor", "processAggregate")
+              .beanRef("aBCFulfillmentProcessor", "transformAggregate")
               .marshal()
                 .csv()
               .to("file:///Users/valeriearena/camel/out?fileName=abcfc-" + dateString + ".csv")

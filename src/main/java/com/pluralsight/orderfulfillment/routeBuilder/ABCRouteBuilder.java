@@ -8,25 +8,31 @@ import org.apache.camel.builder.xml.Namespaces;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
- * Routes the message from the ABC_FULFILLMENT_REQUEST queue to a SFTP server.
+ * Route builder to implement production to a SFTP server.
  *
- * The route takes messages from the ABC_FULFILLMENT_REQUEST queue and aggregates them.
+ * ActiveMQ Component URI syntax: activemq:[queue:|topic:]destinationName[?options]
+ * SFTP Component URI syntax: sftp:host:port[/directoryName][options]
+ * File Component URI syntax: file://directoryName[?options]
+ *
+ * NOTE: CSV Data Format uses Apache Commons CSV to handle CSV payloads.
+ *
+ * The route takes messages from the ABC_FULFILLMENT_REQUEST queue and aggregates them using an aggregate processor.
+ * At the end of aggregation, the exchange inbound message has a list of XML messages.
+ * The list of XML messages is then processed by ABCFulfillmentProcessor, which creates a list of maps for the orders (key = csv column, value = order info)
+ * The list of maps is then marshalled into lines of CSV data. (marshal transforms the inbound message based on the format supplied, which is csv.)
+ * The CSV data is saved to a file and then SFTP'd to the server after setting 'CamelFileName' header on the exchange, which will be the name of the file.
  *
  * An aggregate processor is used to implement the aggregate processor.
- *  - The correlation expression uses xpath to evalute the messages to check if this is a message that needs to be aggregated.
- *  - The completion condition tells us when to stop.
- *  - The AggregationStrategy aggregates the messages.
- *  - Because the Aggregator router is a stateful processor, the aggregate must be persisted. In-memory persistence is the default and is what we are using.
- *
- * The aggregation is then processed by a bean that creates a list of maps for the orders.
- * The list of maps is then marshalled to CSV.
- * The CSV data is saved to a file and then SFTP'd to the server.
+ * - The correlation expression uses xpath to check if <FulfillmentCenter> element is equal to 'ABCFulfillmentCenter'.
+ * - The completion condition tells us when to stop.
+ * - The AggregationStrategy aggregates the messages.
+ * - Because the Aggregator router is a stateful processor, the aggregate must be persisted. In-memory persistence is the default and is what we are using.
  *
  * An exception dead letter channel was defined for any exceptions that occur related to camel exchange processing.
- * - onException is the equivalent of a try/catch block.
+ * - onException clause is the equivalent of a try/catch block.
+ * - onException is defined prior to the route.
  * - In this example, messages will be rerouted to an failure queue.
  * - Camel also provides support for the redelivery of messsages via a redelivery policy.
- *
  */
 
 //@Component
@@ -38,6 +44,10 @@ public class ABCRouteBuilder extends RouteBuilder {
   @Override
   public void configure() throws Exception {
 
+    //getContext().setTracing(true);
+
+    // Java DSL is easy to read and understand!!!
+
     // We need the namespace so that we can look up the XML element correctly in XPATH.
     Namespaces namespace = new org.apache.camel.builder.xml.Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");
 
@@ -47,9 +57,9 @@ public class ABCRouteBuilder extends RouteBuilder {
         .aggregate(new ABCFulfillmentCenterAggregationStrategy())
           .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
           .completionInterval(10000)
-        .beanRef("aBCFulfillmentProcessor", "processAggregate")
+        .beanRef("aBCFulfillmentProcessor", "transformAggregate")
         .marshal()
-          .csv()
+        .csv()
         .to("file://" + folder + "?fileName=abc-fulfillment-center.csv")
         .setHeader("CamelFileName", constant("abc-fulfillment-center.csv"))
         .to("sftp://corp.mobileheartbeat.com:22?username=valerie.arena&password=august142010#");

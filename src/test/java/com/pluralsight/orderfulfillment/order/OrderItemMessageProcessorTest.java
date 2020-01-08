@@ -36,10 +36,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class})
 @Transactional
-public class OrderItemMessageTranslatorTest {
+public class OrderItemMessageProcessorTest {
 
   @Autowired
-  private OrderItemMessageTranslator translator;
+  private OrderItemMessageProcessor translator;
 
   @Autowired
   private CustomerRepository customerRepository;
@@ -89,7 +89,7 @@ public class OrderItemMessageTranslatorTest {
   public void test_transformToOrderItemMessageSuccess() throws Exception {
     Map<String, Object> orderIds = new HashMap<String, Object>();
     orderIds.put("id", orderId);
-    String xml = translator.transformToOrderItemMessage(orderIds);
+    String xml = translator.transformToXML(orderIds);
     System.err.println(xml);
     assertNotNull(xml);
   }

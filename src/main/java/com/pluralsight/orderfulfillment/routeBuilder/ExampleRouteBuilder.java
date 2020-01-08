@@ -18,7 +18,7 @@ public class ExampleRouteBuilder extends RouteBuilder {
   @Override
   public void configure() throws Exception {
 
-    getContext().setTracing(true);
+    // Java DSL is easy to read and understand!!!
 
     from("file://" + folder + "?noop=true&delay=5000")
         .to("file://" + folder + "/test");

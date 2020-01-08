@@ -1,5 +1,6 @@
 package com.pluralsight.orderfulfillment.abcfulfillmentcenter;
 
+import com.pluralsight.orderfulfillment.generated.Order;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -24,7 +25,7 @@ public class ABCFulfillmentProcessor {
    * Camel will call this method and bind the body of the inbound message to
    * the orders List parameter.
    */
-  public List<Map<String, Object>> processAggregate(List orders)
+  public List<Map<String, Object>> transformAggregate(List orders)
       throws Exception {
     log.info("Processing the aggregate");
     List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
@@ -40,7 +41,7 @@ public class ABCFulfillmentProcessor {
       if (orders != null) {
         // 2 - Add each order ID
         for (int i = 0; i < orders.size(); i++) {
-          com.pluralsight.orderfulfillment.generated.Order order = unmarshallOrder((String) orders.get(i));
+          Order order = unmarshallOrder((String) orders.get(i));
           Map<String, Object> row = new LinkedHashMap<String, Object>(3);
           row.put("orderNumber", order.getOrderType().getOrderNumber());
           row.put("firstName", order.getOrderType().getFirstName());

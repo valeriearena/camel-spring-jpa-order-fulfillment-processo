@@ -190,9 +190,13 @@ public class DefaultOrderService implements OrderService {
     // Default to ABC_FULFILLMENT_CENTER. All web orders will be fulfilled
     // through this endpoint.
 
-    if (order.getId() > 4) {
+    if (order.getId() == 1) {
+      orderType.setFulfillmentCenter(FulfillmentCenter.UNKNOWN_FULFILLMENT_CENTER);
+    }
+    else if (order.getId() > 1 && order.getId() <= 4){
       orderType.setFulfillmentCenter(FulfillmentCenter.ABC_FULFILLMENT_CENTER);
-    } else {
+    }
+    else{
       orderType.setFulfillmentCenter(FulfillmentCenter.FULFILLMENT_CENTER_ONE);
     }
 

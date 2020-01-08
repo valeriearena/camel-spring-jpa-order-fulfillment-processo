@@ -4,15 +4,16 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
 
 /**
- * Routes the message from the ORDER_ITEM_PROCESSING queue to the appropriate queue based on the fulfillment center element of the message.
+ * Route builder to implement a Content-Based Router.
+ *
+ * ActiveMQ component URI syntax: activemq:[queue:|topic:]destinationName[?options]
+ *
+ * Routes the message from the ORDER_ITEM_PROCESSING queue to the appropriate queue based on the <FulfillmentCenter> element of the message.
  *
  * A choice processor is used to implement a Content-Based Router (which is a simple message router).
- * When the Fulfillment Center element is equal to 'ABCFulfillmentCenter',
- *  the message will be routed to the ABC fulfillment center queue.
- * When the Fulfillment Center element is equal to 'FulfillmentCenterOne',
- *  the message will be routed to the Fulfillment Center One queue.
- * If a message comes in with a Fulfillment Center element value that is unsupported,
- *  the message gets routed to an error queue.
+ * When the <FulfillmentCenter> element is equal to 'ABCFulfillmentCenter', the message will be routed to the ABC_FULFILLMENT_REQUEST queue.
+ * When the <FulfillmentCenter> element is equal to 'FulfillmentCenterOne', the message will be routed to the FC1_FULFILLMENT_REQUEST queue.
+ * If a message comes in with the <FulfillmentCenter> element value that is unsupported, the message gets routed to ERROR_FULFILLMENT_REQUEST.
  *
  * An XPath expression is used to lookup the fulfillment center value using the specified namespace.
  * - The xpath expression evaluates the inbound message of the exchange. The body of the message is xml.
@@ -44,7 +45,9 @@ public class FulfillmentCenterRouteBuilder extends RouteBuilder {
   @Override
   public void configure() throws Exception {
 
-    getContext().setTracing(true);
+    //getContext().setTracing(true);
+
+    // Java DSL is easy to read and understand!!!
 
     // We need the namespace so that we can look up the XML element correctly in XPATH.
     Namespaces namespace = new Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");

@@ -29,7 +29,7 @@ public class FulfillmentCenterOneProcessor {
    * @param orderXml
    * @return
    */
-  public String transformToOrderRequestMessage(String orderXml) {
+  public String transformToJSON(String orderXml) {
     String output = null;
     try {
       if (orderXml == null) {

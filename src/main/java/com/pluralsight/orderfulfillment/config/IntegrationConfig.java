@@ -2,10 +2,9 @@ package com.pluralsight.orderfulfillment.config;
 
 import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentCenterOneProcessor;
-import com.pluralsight.orderfulfillment.order.OrderItemMessageTranslator;
+import com.pluralsight.orderfulfillment.order.OrderItemMessageProcessor;
 import com.pluralsight.orderfulfillment.routeBuilder.ABCRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
-import com.pluralsight.orderfulfillment.routeBuilder.ExampleRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.sql.DataSource;
@@ -107,8 +106,8 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   }
 
   @Bean
-  public OrderItemMessageTranslator orderItemMessageTranslator() {
-    return new OrderItemMessageTranslator();
+  public OrderItemMessageProcessor orderItemMessageProcessor() {
+    return new OrderItemMessageProcessor();
   }
 
 
