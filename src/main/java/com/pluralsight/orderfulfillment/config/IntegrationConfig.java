@@ -5,7 +5,7 @@ import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.Fulfillment
 import com.pluralsight.orderfulfillment.order.OrderItemMessageTranslator;
 import com.pluralsight.orderfulfillment.routeBuilder.ABCRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
-import com.pluralsight.orderfulfillment.routeBuilder.FileRouteBuilder;
+import com.pluralsight.orderfulfillment.routeBuilder.ExampleRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.sql.DataSource;
@@ -59,16 +59,6 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   // Routes defined as Spring beans are automatically scanned when loading the CamelContext into Spring.
 
   /**
-   * Routes file to the /test directory.
-   */
-  @Bean
-  public RouteBuilder fileRouteBuilder() {
-
-    return new FileRouteBuilder();
-
-  }
-
-  /**
    * Routes new orders to the ORDER_ITEM_PROCESSING queue.
    */
   @Bean
@@ -120,6 +110,17 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   public OrderItemMessageTranslator orderItemMessageTranslator() {
     return new OrderItemMessageTranslator();
   }
+
+
+  /**
+   * Routes file to the /test directory.
+   */
+//  @Bean
+//  public RouteBuilder fileRouteBuilder() {
+//
+//    return new ExampleRouteBuilder();
+//
+//  }
 
   /*
    * The route copies a file to the /test directory.

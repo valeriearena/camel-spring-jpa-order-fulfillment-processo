@@ -6,22 +6,37 @@ import org.apache.camel.builder.xml.Namespaces;
 /**
  * Routes the message from the ORDER_ITEM_PROCESSING queue to the appropriate queue based on the fulfillment center element of the message.
  *
- * As the message from the ORDER_ITEM_PROCESSING queue is XML, a namespace is required.
- *
- * A Choice processor is used to realize the Content-Based Router.
- * When the Fulfillment Center element is equal to the value of the ABC fulfillment enter enumeration,
- *  the message will be routed to the ABC fulfillment center request queue.
- * When the Fulfillment Center element is equal to the value of the Fulfillment Center 1 enumeration value,
- *  the message will be routed to the Fulfillment Center 1 request queue.
+ * A choice processor is used to implement a Content-Based Router (which is a simple message router).
+ * When the Fulfillment Center element is equal to 'ABCFulfillmentCenter',
+ *  the message will be routed to the ABC fulfillment center queue.
+ * When the Fulfillment Center element is equal to 'FulfillmentCenterOne',
+ *  the message will be routed to the Fulfillment Center One queue.
  * If a message comes in with a Fulfillment Center element value that is unsupported,
  *  the message gets routed to an error queue.
  *
  * An XPath expression is used to lookup the fulfillment center value using the specified namespace.
+ * - The xpath expression evaluates the inbound message of the exchange. The body of the message is xml.
+ * - The when expression uses xpath expression to evaluates the type of fulfillment center by retrieving node from xml message body.
+ * - The xpath expression will return true or false depending on the value of the 'FulfillmentCenter' xml node.
+ * - The value of the expression (conditional) will determine where the message gets routed.
  *
  * Below is a snippet of the XML returned by the ORDER_ITEM_PROCESSING queue.
  *
  * <Order xmlns="http://www.pluralsight.com/orderfulfillment/Order">
- * <OrderType> <FulfillmentCenter>ABCFulfillmentCenter</FulfillmentCenter>
+ * 	<OrderType>
+ *         <FirstName>Ron</FirstName>
+ *         <LastName>River</LastName>
+ *         <Email>ron@goodbye.com</Email>
+ *         <OrderNumber>1005</OrderNumber>
+ *         <TimeOrderPlaced>2019-12-17T06:39:50.993-05:00</TimeOrderPlaced>
+ *         <FulfillmentCenter>ABCFulfillmentCenter</FulfillmentCenter>
+ *         <OrderItems>
+ *             <ItemNumber>078-1344200444</ItemNumber>
+ *             <Price>20.00000</Price>
+ *             <Quantity>3</Quantity>
+ *         </OrderItems>
+ *     </OrderType>
+ * </Order>
  */
 //@Component
 public class FulfillmentCenterRouteBuilder extends RouteBuilder {
@@ -31,15 +46,8 @@ public class FulfillmentCenterRouteBuilder extends RouteBuilder {
 
     getContext().setTracing(true);
 
-    // We need the namespace to route the message so that we can look up the element correctly.
+    // We need the namespace so that we can look up the XML element correctly in XPATH.
     Namespaces namespace = new Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");
-
-    // Send from the ORDER_ITEM_PROCESSING queue to the correct fulfillment center queue.
-    // Content-based router is implemented using a choice processor.
-    // The xpath expression evaluates the inbound message of the exchange. The body of the message is xml.
-    // The when expression uses xpath expression to evaluates the type of fulfillment center by retrieving node from xml message body.
-    // The xpath expression will return true or false depending on the value of the 'FulfillmentCenter' xml node.
-    // The value of the expression (conditional) will determine where the message gets routed.
 
     from("activemq:queue:ORDER_ITEM_PROCESSING")
         .choice()
