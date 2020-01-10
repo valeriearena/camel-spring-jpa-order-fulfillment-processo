@@ -34,7 +34,7 @@ public class AppConfig {
   // ************* Spring beans used by the code that was refactored and replaced by Camel routes. *************
 
   @Bean
-  public OrderController OrderController(){
+  public OrderController orderController(){
     return new OrderController();
   }
 
