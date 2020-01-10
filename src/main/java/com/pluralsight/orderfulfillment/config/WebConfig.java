@@ -21,9 +21,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     return viewResolver;
   }
 
-  /**
-   * Configures Tiles at application startup.
-   */
   @Bean
   public TilesConfigurer tilesConfigurer() {
     TilesConfigurer configurer = new TilesConfigurer();

@@ -4,7 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 
 /**
- * Route builder to implement production to a RESTful web service.
+ * Camel RouteBuilder for routing orders from ActiveMQ to a REST endpoint.
  *
  * ActiveMQ Component URI syntax: activemq:[queue:|topic:]destinationName[?options]
  * HTTP4 Component URI syntax: http4:hostname[:port][/resourceUri][?options]
@@ -13,8 +13,8 @@ import org.apache.camel.builder.RouteBuilder;
  *
  * This route will first consume a message from the FC1_FULFILLMENT_REQUEST ActiveMQ queue.
  * The message body will be in XML format.
- * The message will then be passed to the FulfillmentCenterOneProcessor where it will be transformed from the XML to JSON format.
- * Next, the message header content type will be set as JSON format and a message will be posted to the fulfillment center one RESTful web service.
+ * The message will then be passed to the FulfillmentCenterOneProcessor where it will be transformed from XML to JSON.
+ * Next, the message header content type will be set as JSON format and a message will be posted to the fulfillment center one REST endpoint.
  * If the response is success, the route will be complete. If not, the route will error out.
  *
  * Camel checks the following to determine the HTTP method:
