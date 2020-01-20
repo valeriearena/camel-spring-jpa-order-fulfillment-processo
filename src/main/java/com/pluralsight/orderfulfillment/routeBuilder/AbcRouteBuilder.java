@@ -58,7 +58,7 @@ public class AbcRouteBuilder extends RouteBuilder {
         .aggregate(new AbcFulfillmentCenterAggregationStrategy())
           .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
           .completionInterval(10000)
-        .beanRef("aBCFulfillmentProcessor", "transformAggregate")
+        .beanRef("abcFulfillmentProcessor", "transformAggregate")
         .marshal()
         .csv()
         .to("file://" + folder + "?fileName=abc-fulfillment-center.csv")

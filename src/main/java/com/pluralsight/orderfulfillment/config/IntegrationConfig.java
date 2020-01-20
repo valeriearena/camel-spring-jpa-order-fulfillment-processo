@@ -80,7 +80,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    * Routes orders from the FC1_FULFILLMENT_REQUEST queue to /orderFulfillment/processOrders REST endpoint.
    */
   @Bean
-  public RouteBuilder fC1RouteBuilder() {
+  public RouteBuilder fc1RouteBuilder() {
 
     return new Fc1RouteBuilder();
   }
@@ -89,7 +89,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
    * Routes orders from the ABC_FULFILLMENT_REQUEST queue to an FTP server.
    */
   @Bean
-  public RouteBuilder aBCRouteBuilder() {
+  public RouteBuilder abcRouteBuilder() {
 
     return new AbcRouteBuilder();
   }
@@ -101,7 +101,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   }
 
   @Bean
-  public AbcFulfillmentProcessor aBCFulfillmentProcessor() {
+  public AbcFulfillmentProcessor abcFulfillmentProcessor() {
     return new AbcFulfillmentProcessor();
   }
 
