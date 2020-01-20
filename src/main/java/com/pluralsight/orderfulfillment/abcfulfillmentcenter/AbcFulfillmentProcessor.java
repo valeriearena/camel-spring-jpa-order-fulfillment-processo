@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Michael Hoffman, Pluralsight
  */
-public class ABCFulfillmentProcessor {
+public class AbcFulfillmentProcessor {
 
-  private static final Logger log = LoggerFactory.getLogger(ABCFulfillmentProcessor.class);
+  private static final Logger log = LoggerFactory.getLogger(AbcFulfillmentProcessor.class);
 
   /**
    * Camel will call this method and bind the body of the inbound message to

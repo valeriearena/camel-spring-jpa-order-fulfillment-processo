@@ -32,7 +32,7 @@ import org.apache.camel.builder.RouteBuilder;
  */
 
 //@Component
-public class FC1RouteBuilder extends RouteBuilder {
+public class Fc1RouteBuilder extends RouteBuilder {
 
   @Override
   public void configure() throws Exception {

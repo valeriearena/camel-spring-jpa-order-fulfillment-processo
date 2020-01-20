@@ -1,10 +1,10 @@
 package com.pluralsight.orderfulfillment.config;
 
-import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.AbcFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.fulfillmentcenterone.service.FulfillmentCenterOneProcessor;
 import com.pluralsight.orderfulfillment.order.OrderItemMessageProcessor;
-import com.pluralsight.orderfulfillment.routeBuilder.ABCRouteBuilder;
-import com.pluralsight.orderfulfillment.routeBuilder.FC1RouteBuilder;
+import com.pluralsight.orderfulfillment.routeBuilder.AbcRouteBuilder;
+import com.pluralsight.orderfulfillment.routeBuilder.Fc1RouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.FulfillmentCenterRouteBuilder;
 import com.pluralsight.orderfulfillment.routeBuilder.NewOrderRouteBuilder;
 import javax.sql.DataSource;
@@ -82,7 +82,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   @Bean
   public RouteBuilder fC1RouteBuilder() {
 
-    return new FC1RouteBuilder();
+    return new Fc1RouteBuilder();
   }
 
   /**
@@ -91,7 +91,7 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   @Bean
   public RouteBuilder aBCRouteBuilder() {
 
-    return new ABCRouteBuilder();
+    return new AbcRouteBuilder();
   }
 
   // ************* Camel Processors that transform the message *************
@@ -101,8 +101,8 @@ public class IntegrationConfig extends CamelConfiguration { // Configure Camel i
   }
 
   @Bean
-  public ABCFulfillmentProcessor aBCFulfillmentProcessor() {
-    return new ABCFulfillmentProcessor();
+  public AbcFulfillmentProcessor aBCFulfillmentProcessor() {
+    return new AbcFulfillmentProcessor();
   }
 
   @Bean

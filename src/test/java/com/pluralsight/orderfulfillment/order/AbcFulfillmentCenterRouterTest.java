@@ -1,7 +1,7 @@
 package com.pluralsight.orderfulfillment.order;
 
-import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCenterAggregationStrategy;
-import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentProcessor;
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.AbcFulfillmentCenterAggregationStrategy;
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.AbcFulfillmentProcessor;
 import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
 import java.text.SimpleDateFormat;
 import javax.jms.ConnectionFactory;
@@ -33,9 +33,9 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-    classes = {ABCFulfillmentCenterRouterTest.TestConfig.class},
+    classes = {AbcFulfillmentCenterRouterTest.TestConfig.class},
     loader = CamelSpringDelegatingTestContextLoader.class)
-public class ABCFulfillmentCenterRouterTest {
+public class AbcFulfillmentCenterRouterTest {
 
   @Produce(uri = "direct:test")
   private ProducerTemplate testProducer;
@@ -114,8 +114,8 @@ public class ABCFulfillmentCenterRouterTest {
   @Configuration
   public static class TestConfig extends SingleRouteCamelConfiguration {
     @Bean
-    public ABCFulfillmentProcessor aBCFulfillmentProcessor() {
-      return new ABCFulfillmentProcessor();
+    public AbcFulfillmentProcessor aBCFulfillmentProcessor() {
+      return new AbcFulfillmentProcessor();
     }
 
     @Bean
@@ -164,7 +164,7 @@ public class ABCFulfillmentCenterRouterTest {
 //
 //               // 2 - Aggregate XML messages from the queue.
 //               from("activemq:queue:ABC_FULFILLMENT_REQUEST")
-//               .aggregate(new ABCFulfillmentCenterAggregationStrategy())
+//               .aggregate(new AbcFulfillmentCenterAggregationStrategy())
 //               .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
 //               .ignoreInvalidCorrelationKeys()// Supresses exceptions.
 //               .completionInterval(10000)
@@ -198,7 +198,7 @@ public class ABCFulfillmentCenterRouterTest {
 
           // 2 - Aggregate XML messages from the queue.
           from("activemq:queue:ABC_FULFILLMENT_REQUEST")
-              .aggregate(new ABCFulfillmentCenterAggregationStrategy())
+              .aggregate(new AbcFulfillmentCenterAggregationStrategy())
                 .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
                 .completionInterval(10000)
               .beanRef("aBCFulfillmentProcessor", "transformAggregate")

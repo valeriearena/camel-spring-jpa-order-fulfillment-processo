@@ -1,6 +1,6 @@
 package com.pluralsight.orderfulfillment.routeBuilder;
 
-import com.pluralsight.orderfulfillment.abcfulfillmentcenter.ABCFulfillmentCenterAggregationStrategy;
+import com.pluralsight.orderfulfillment.abcfulfillmentcenter.AbcFulfillmentCenterAggregationStrategy;
 import com.pluralsight.orderfulfillment.generated.FulfillmentCenter;
 import org.apache.camel.CamelExchangeException;
 import org.apache.camel.builder.RouteBuilder;
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
  * The route takes messages from the ABC_FULFILLMENT_REQUEST queue and aggregates them using an aggregate processor.
  * An aggregate processor is used to implement an Aggregator Router (which is a simple message router).
  * At the end of aggregation, the exchange inbound message has a list of XML messages.
- * The list of XML messages is then processed by ABCFulfillmentProcessor, which creates a list of maps for the orders (key = csv column, value = order info)
+ * The list of XML messages is then processed by AbcFulfillmentProcessor, which creates a list of maps for the orders (key = csv column, value = order info)
  * The list of maps is then marshalled into lines of CSV data. (marshal transforms the inbound message based on the format supplied, which is csv.)
  * The CSV data is saved to a file and then SFTP'd to the server after setting 'CamelFileName' header on the exchange, which will be the name of the file.
  *
@@ -37,7 +37,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 
 //@Component
-public class ABCRouteBuilder extends RouteBuilder {
+public class AbcRouteBuilder extends RouteBuilder {
 
   @Value("${order.fulfillment.center.1.outbound.folder}")
   private String folder;
@@ -55,7 +55,7 @@ public class ABCRouteBuilder extends RouteBuilder {
     onException(CamelExchangeException.class).to("activemq:queue:ABC_FULFILLMENT_ERROR");
 
     from("activemq:queue:ABC_FULFILLMENT_REQUEST")
-        .aggregate(new ABCFulfillmentCenterAggregationStrategy())
+        .aggregate(new AbcFulfillmentCenterAggregationStrategy())
           .xpath("//*[contains(text(), '" + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value() + "')]", String.class, namespace)
           .completionInterval(10000)
         .beanRef("aBCFulfillmentProcessor", "transformAggregate")

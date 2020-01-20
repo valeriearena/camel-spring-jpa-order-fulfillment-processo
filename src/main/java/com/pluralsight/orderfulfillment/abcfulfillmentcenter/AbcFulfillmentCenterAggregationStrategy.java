@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Michael Hoffman, Pluralsight
  */
-public class ABCFulfillmentCenterAggregationStrategy implements AggregationStrategy {
+public class AbcFulfillmentCenterAggregationStrategy implements AggregationStrategy {
 
-  private static final Logger log = LoggerFactory.getLogger(ABCFulfillmentCenterAggregationStrategy.class);
+  private static final Logger log = LoggerFactory.getLogger(AbcFulfillmentCenterAggregationStrategy.class);
 
   @Override
   public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
