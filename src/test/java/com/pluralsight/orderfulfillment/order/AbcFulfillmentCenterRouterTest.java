@@ -113,8 +113,9 @@ public class AbcFulfillmentCenterRouterTest {
 
   @Configuration
   public static class TestConfig extends SingleRouteCamelConfiguration {
+
     @Bean
-    public AbcFulfillmentProcessor aBCFulfillmentProcessor() {
+    public AbcFulfillmentProcessor abcFulfillmentProcessor() {
       return new AbcFulfillmentProcessor();
     }
 
