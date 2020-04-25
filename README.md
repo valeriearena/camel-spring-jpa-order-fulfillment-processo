@@ -1,4 +1,9 @@
-# Order Fulfillment Processor
+# camel-spring-jpa-order-fulfillment-processor
+Spring app that integrates with various Camel routes:
+* Camel RouteBuilder for routing orders from SQL Server to ActiveMQ.
+* Camel RouteBuilder to implement a Content-Based Router.
+* Camel RouteBuilder for routing orders from ActiveMQ to an SFTP server.
+* Camel RouteBuilder for routing orders from ActiveMQ to a REST endpoint.
 
 Build war file:
 
